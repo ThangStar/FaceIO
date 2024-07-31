@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 import ChatSvg from '/public/svg/chat.svg';
-
-function IconButton({ children }: any) {
+type Props = HTMLAttributes<HTMLDivElement> & {
+    children: any
+}
+function IconButton({ children }: Props) {
     return (
         <div className='btn btn-circle bg-base-100 mx-0.5'>
             {children}

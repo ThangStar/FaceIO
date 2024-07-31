@@ -7,10 +7,12 @@ import NavBar from '@/components/NavBar'
 import PreLoader from '@/components/PreLoader'
 import ThemeProvider from '@/context/ThemeContext'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 
 function AppProvider({ children }: any) {
     const [isFirstJoin, setIsFirstJoin] = React.useState(false)
+    const [count, setcount] = useState(0)
+
     return (
         <ThemeProvider>
             {
@@ -19,7 +21,7 @@ function AppProvider({ children }: any) {
             <div className="h-screen overflow-y-auto overflow-x-hidden relative w-screen">
                 <NavBar />
                 <Debuger />
-                <ChatBubble/>
+                <ChatBubble />
                 {/* breadcrumbs */}
                 <Breadcrumbs />
                 <div className="w-full min-h-[calc(100%-240px-48px-64px)] py-12 bg-base-200">
