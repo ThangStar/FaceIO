@@ -1,5 +1,6 @@
 "use client"
 import Breadcrumbs from '@/components/Breadcrumbs'
+import ChatList from '@/components/chat/ChatList'
 import ChatBubble from '@/components/ChatBubble'
 import Debuger from '@/components/Debuger'
 import Footer from '@/components/Footer'

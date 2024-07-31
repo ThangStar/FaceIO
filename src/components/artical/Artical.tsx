@@ -1,15 +1,19 @@
+"use client"
 import React from 'react'
 import Avatar from '../Avatar'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
-import MenuSvg from '/public/svg/menu.svg';
+import HeartSvg from '/public/svg/heart.svg';
+import HeartAnim from '/public/anim/heart.json';
 import IconButton from '../button/IconButton';
+import Lottie from 'lottie-react';
+import AvatarGroup from '../avatar/AvatarGroup';
 
 function Artical() {
     return (
-        <div className="artboard artboard-horizontal bg-base-300 phone-6 !h-auto">
-            <div className="flex flex-col p-4 md:flex-row bg-base-100">
-                <Avatar />
+        <div className="artboard artboard-horizontal bg-base-100 phone-6 !h-auto rounded">
+            <div className="flex flex-col p-4 md:flex-row ">
+                {/* <Avatar /> */}
                 <div className="flex-1 ml-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">John Doe</h2>
@@ -27,15 +31,20 @@ function Artical() {
                             <p className="text-slate-500">3 hours ago</p>
                             <div className="flex items-center">
                                 <IconButton>
-                                    <ChatSvg className="" />
+                                    <Lottie animationData={HeartAnim} loop={true} className='size-24 absolute z-10' />
+                                    {/* <HeartSvg className="absolute z-10 stroke-base-100" /> */}
                                 </IconButton>
                                 <IconButton>
-                                    <ChatSvg className="" />
+                                    <ChatSvg className="fill-primary" />
                                 </IconButton>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='flex justify-between items-center px-4 mb-3'>
+                <div>content1</div>
+                <AvatarGroup />
             </div>
         </div>
     )

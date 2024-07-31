@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import Hero from '@/components/Hero'
 import NavBar from '@/components/NavBar'
 import PreLoader from '@/components/PreLoader'
-import AppProvider from "./providers/AppProvider";
+import AppProvider from "../providers/AppProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

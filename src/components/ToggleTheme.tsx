@@ -1,13 +1,46 @@
 "use client"
 import { ThemeContext } from '@/context/ThemeContext';
 import { useTheme } from '@/hooks/useSwitchTheme';
-import React, { HTMLAttributes, HTMLProps, useContext, useEffect, useState } from 'react'
+import React, { HTMLAttributes, HTMLProps, useContext, useEffect, useRef, useState } from 'react'
 
 type Props = HTMLAttributes<HTMLDivElement> & {
     iconStyle?: HTMLProps<HTMLElement>["className"];
 }
 const ToggleTheme = ({ iconStyle }: Props) => {
     // const { toggleTheme, theme } = useTheme();
+    const themes = useRef(["light",
+        "dark",
+        "cupcake",
+        "bumblebee",
+        "emerald",
+        "corporate",
+        "synthwave",
+        "retro",
+        "cyberpunk",
+        "valentine",
+        "halloween",
+        "garden",
+        "forest",
+        "aqua",
+        "lofi",
+        "pastel",
+        "fantasy",
+        "wireframe",
+        "black",
+        "luxury",
+        "dracula",
+        "cmyk",
+        "autumn",
+        "business",
+        "acid",
+        "lemonade",
+        "night",
+        "coffee",
+        "winter",
+        "dim",
+        "nord",
+        "sunset",
+    ])
     const { theme, changeTheme } = useContext<any>(ThemeContext)
     return (
         <div className="dropdown">
@@ -23,50 +56,17 @@ const ToggleTheme = ({ iconStyle }: Props) => {
                 </svg>
             </div>
             <ul tabIndex={0} className="dropdown-content bg-base-300 rounded-box z-[1] w-52 p-2 shadow-2xl">
-                <li>
-                    <input
-                        onClick={() => changeTheme('light')}
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="light"
-                        value="light" />
-                </li>
-                <li>
-                    <input
-                        onClick={() => changeTheme('dark')}
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="dark"
-                        value="dark" />
-                </li>
-                <li>
-                    <input
-                        type="radio"
-                        onClick={() => changeTheme('cyberpunk')}
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Cyberpunk"
-                        value="cyberpunk" />
-                </li>
-                <li>
-                    <input
-                        onClick={() => changeTheme('valentine')}
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Valentine"
-                        value="valentine" />
-                </li>
-                <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Aqua"
-                        value="aqua" />
-                </li>
+                {themes.current.map((theme, index) => (
+                    <li key={index}>
+                        <input
+                            onClick={() => changeTheme(theme)}
+                            type="radio"
+                            name="theme-dropdown"
+                            className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+                            aria-label={theme}
+                            value={theme} />
+                    </li>
+                ))}
             </ul>
         </div>
     )

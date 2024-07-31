@@ -276,3 +276,9 @@ body {
     clip: rect(67px, 9999px, 122px, 0);
   }
 }
+.btm-nav > *:where(.active) {
+  border-bottom-width: 2px;
+  border-top-width: 0px;
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
+}
