@@ -39,7 +39,7 @@ const PreLoader: React.FC = () => {
                 <div className="flex justify-center items-center h-full">
                     <div>
                         <div className="flex justify-center items-center overflow-hidden px-12 py-8 text-3xl ">
-                            <span className="t1">Hello,</span>
+                            <span className="t1">Hi,</span>
                             <span className="t2 pr-2">Welcome</span>
                             <span className="t3">Back!</span>
                         </div>
