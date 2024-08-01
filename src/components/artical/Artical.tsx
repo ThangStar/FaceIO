@@ -31,7 +31,7 @@ function Artical() {
                             <p className="text-slate-500">3 hours ago</p>
                             <div className="flex items-center">
                                 <IconButton>
-                                    <Lottie animationData={HeartAnim} loop={true} className='size-24 absolute z-10' />
+                                    <Lottie animationData={HeartAnim} loop={true} className='size-24 absolute ' />
                                     {/* <HeartSvg className="absolute z-10 stroke-base-100" /> */}
                                 </IconButton>
                                 <IconButton>

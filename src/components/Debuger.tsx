@@ -10,7 +10,7 @@ function Debuger({ children }: any) {
     }, [])
 
     return (
-        <div className='fixed z-30 right-6 bottom-6 bg-base-300 rounded'>
+        <div className='fixed z-30 left-6 bottom-6 bg-base-300 rounded'>
             <h3 className='border-b p-3'>Debuger</h3>
             <div className='p-12 text-left'> pathname: {pathname}</div>
         </div>
