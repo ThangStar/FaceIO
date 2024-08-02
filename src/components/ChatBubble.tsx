@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Avatar from './Avatar'
 import CloseSvg from '/public/svg/close.svg'
 import IconButton from './button/IconButton'
@@ -13,6 +13,7 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import Modal from './modal/modal'
 import { ModalContext } from '@/context/ModalContext'
+import ModalImage from './modal/ModalImage'
 
 type Props = {
     chat: user,
@@ -57,7 +58,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             }
             dispatch(addNewMessage({
                 message: {
-                    id: ran, message, time: 'now', id_user_send: ran, id_user_receive: ran, image: arrStrImage
+                    id: ran, message, time: 'now', id_user_send: 1, id_user_receive: 2, image: arrStrImage
                 }, userId: 1
             }))
             setMessage('')
@@ -83,16 +84,10 @@ function ChatBubbleItem({ chat, index }: Props) {
 
     const { childrenModal, changeChildrenModal } = useContext<any>(ModalContext)
 
-    const childModalImage = (url: string) => {
-        return (
-            <Image alt='' width={0} sizes='1' className='w-full h-full object-center object-contain rounded-md' height={0} src={url} />
-        )
-    }
     const imagePreview = (url: string) => {
-        changeChildrenModal(childModalImage(url));
+        changeChildrenModal(<ModalImage url={url} />);
         (document.getElementById('modal-show') as any).showModal()
     }
-
     return (
         <motion.div
             key={chat.id}
@@ -131,9 +126,7 @@ function ChatBubbleItem({ chat, index }: Props) {
                                                 </div>
                                             </div>
                                         )
-                                    })
-
-                                    }
+                                    })}
                                 </div>
                                 <div className="chat-footer opacity-50">Seen</div>
                             </motion.div>

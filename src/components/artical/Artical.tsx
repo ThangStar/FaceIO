@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useContext } from 'react'
 import Avatar from '../Avatar'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
@@ -8,8 +8,16 @@ import HeartAnim from '/public/anim/heart.json';
 import IconButton from '../button/IconButton';
 import Lottie from 'lottie-react';
 import AvatarGroup from '../avatar/AvatarGroup';
+import { AnimatePresence, motion } from "framer-motion"
+import ModalImage from '../modal/ModalImage';
+import { ModalContext } from '@/context/ModalContext';
 
 function Artical() {
+    const { childrenModal, changeChildrenModal } = useContext<any>(ModalContext)
+    const showModalImage = (url: string) => {
+        changeChildrenModal(<ModalImage url={url} />);
+        (document.getElementById('modal-show') as any).showModal()
+    }
     return (
         <div className="artboard artboard-horizontal bg-base-100 phone-6 !h-auto rounded">
             <div className="flex flex-col p-4 md:flex-row ">
@@ -23,7 +31,11 @@ function Artical() {
                         </div>
                     </div>
                     <figure className="w-full mt-4">
-                        <img src="https://picsum.photos/500/300" alt="Post image" className="rounded-lg" />
+                        <motion.img
+                            whileHover={{ scale: 1.01 }}
+                            src="https://picsum.photos/500/300" alt="Post image"
+                            onClick={() => showModalImage('https://picsum.photos/500/300')}
+                            className="rounded-lg cursor-pointer" />
                     </figure>
                     <div className="mt-4">
                         <p className="text-slate-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod nunc et libero suscipit, vitae euismod orci tincidunt. Sed nec nunc lobortis, ultrices purus in, euismod nunc. Maecenas euismod, dui in aliquam venenatis, lectus nisi fermentum tellus, vel vulputate nulla felis non risus. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. </p>

@@ -11,7 +11,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['img.daisyui.com'],
+    domains: ['img.daisyui.com', 'picsum.photos'],
   },
 };
 
