@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config) => {
+
     config.resolve.fallback = { fs: false };
 
     config.module.rules.push({
@@ -8,6 +9,9 @@ const nextConfig = {
       use: ['@svgr/webpack']
     })
     return config;
+  },
+  images: {
+    domains: ['img.daisyui.com'],
   },
 };
 

@@ -282,3 +282,4 @@ body {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
 }
+:focus { outline: none; }

@@ -8,7 +8,6 @@ function ThemeProvider({ children }: any) {
 
     const [theme, setTheme] = React.useState('business')
     const [isMounted, setIsMounted] = React.useState(false)
-
     React.useEffect(() => {
         setIsMounted(true)
         const t = localStorage.getItem('theme') || 'business';
