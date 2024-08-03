@@ -1,6 +1,6 @@
 "use client"
 import React, { useContext } from 'react'
-import Avatar from '../Avatar'
+import Avatar from '../avatar/Avatar'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
 import HeartSvg from '/public/svg/heart.svg';

@@ -1,7 +1,18 @@
+"use client"
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
+import ModalRegister from '../modal/ModalRegister'
+import { ModalContext } from '@/context/ModalContext'
 
 function Hero() {
+    const { childrenModal, changeChildrenModal } = useContext<any>(ModalContext)
+
+    const handleShowRegister = () => {
+        if (typeof changeChildrenModal === 'function') {
+            changeChildrenModal(<ModalRegister />);
+        }
+        (document.getElementById('modal-show') as any).showModal()
+    }
     return (
         <div className="hero mb-28 min-h-[calc(100vh-240px-48px)]">
             <div className="hero-content p-0 text-center">
@@ -20,13 +31,14 @@ function Hero() {
                     <p className="py-6">
                         Tham gia ngay cộng đồng của chúng tôi
                     </p>
-                    <Link className="gap-1 animate-spin hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600
+                    <div className='space-x-2'>
+                        <button onClick={handleShowRegister} className="gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600
                     hover:from-violet-600 hover:to-pink-500
-                    px-3 md:px-8 py-3 md:py-4 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all ease-out hover:text-white md:font-semibold" href={'/register'}
-                    >
-                        <span>Đăng kí ngay</span>
-                    </Link>
-
+                    px-3 md:px-8 py-3 md:py-4 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all ease-out hover:text-white md:font-semibold"
+                        >
+                            <span>Đăng kí ngay</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 

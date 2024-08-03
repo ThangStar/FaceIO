@@ -1,8 +1,8 @@
 "use client"
-import Hero from '@/components/Hero'
-import Section from '@/components/Section'
 import React from 'react'
 import { motion } from "framer-motion"
+import Hero from '@/components/layout/Hero'
+import Section from '@/components/layout/Section'
 function Page() {
   return (
     <>

@@ -9,6 +9,7 @@ const userInfo: user = {
 }
 export const socket = io(URL, {
     extraHeaders: {
-        "userinfo": JSON.stringify(userInfo)
-    }
+        "userinfo": JSON.stringify(userInfo),
+    },
+    transports: ['websocket']
 })

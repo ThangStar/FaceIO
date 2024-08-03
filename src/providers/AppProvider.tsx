@@ -1,42 +1,34 @@
 "use client"
-import Breadcrumbs from '@/components/Breadcrumbs'
-import ChatList from '@/components/chat/ChatList'
-import ChatBubble from '@/components/ChatBubble'
-import Debuger from '@/components/Debuger'
-import Footer from '@/components/Footer'
-import Modal from '@/components/modal/modal'
-import NavBar from '@/components/NavBar'
-import PreLoader from '@/components/PreLoader'
+import Breadcrumbs from '@/components/layout/Breadcrumbs'
 import ModalProvider from '@/context/ModalContext'
 import ThemeProvider from '@/context/ThemeContext'
 import store from '@/redux/store'
-import { AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/router'
-import React, { ReactNode, useState } from 'react'
+import React, {  } from 'react'
 import { Provider } from 'react-redux'
+import ContainerViewProvider from './ContainerViewProvider'
+import BodyViewProvider from './BodyViewProvider'
+import PreLoaderProvider from './PreLoaderProvider'
+import ChatBubble from '@/components/chat/ChatBubble'
+import NavBar from '@/components/layout/NavBar'
+import Debuger from '@/components/layout/Debuger'
+import Footer from '@/components/layout/Footer'
 function AppProvider({ children }: any) {
-    const [isFirstJoin, setIsFirstJoin] = React.useState(false)
-    const [modalChildren, setModalChildren] = useState<ReactNode>()
     return (
         <Provider store={store}>
             <ThemeProvider>
-                {
-                    isFirstJoin && <PreLoader />
-                }
-                <div className="h-screen overflow-y-auto overflow-x-hidden relative w-screen">
-                    <NavBar />
+               <PreLoaderProvider/>
+                <ContainerViewProvider>
                     <ModalProvider>
+                    <NavBar />
                         <Debuger />
                         <ChatBubble />
-                        {/* breadcrumbs */}
                         <Breadcrumbs />
-                        <div className="w-full min-h-[calc(100%-240px-48px-64px)] py-12 bg-base-200">
+                        <BodyViewProvider>
                             {children}
-                        </div>
+                        </BodyViewProvider>
                         <Footer />
                     </ModalProvider>
-                </div>
-
+                </ContainerViewProvider>
             </ThemeProvider>
         </Provider>
     )

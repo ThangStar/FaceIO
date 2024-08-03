@@ -5,7 +5,7 @@ import IconButton from '../button/IconButton'
 
 function Modal({ children }: any) {
     return (
-        <dialog id="modal-show" className="modal h-full bg-transparent">
+        <dialog id="modal-show" className="modal rounded h-full bg-transparent">
             <div className="modal-box w-11/12 max-w-5xl bg-transparent p-0 m-0 relative overflow-hidden">
                 {children}
                 <div className="modal-action p-0 m-0">

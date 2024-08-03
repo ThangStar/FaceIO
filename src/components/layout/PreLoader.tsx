@@ -4,9 +4,9 @@ import gsap from "gsap";
 // import Logo from "../svg/Logo";
 
 const PreLoader: React.FC = () => {
+    
     useEffect(() => {
         const tl = gsap.timeline();
-
         // Preloader Animation
         const preLoaderAnim = () => {
             tl
@@ -33,7 +33,7 @@ const PreLoader: React.FC = () => {
     }, []);
 
     return (
-        <div className="anim-c w-screen h-screen absolute z-30">
+        <div className="anim-c w-screen h-screen absolute z-40 inset-0 top-0">
             <div className="h-screen w-screen bg-base-100 z-10 absolute"></div>
             <div className="h-screen initial w-screen bg-base-100 z-20 hidden fixed">
                 <div className="flex justify-center items-center h-full">

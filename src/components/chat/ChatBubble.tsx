@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import Avatar from './Avatar'
 import CloseSvg from '/public/svg/close.svg'
-import IconButton from './button/IconButton'
 import { AnimatePresence, motion } from "framer-motion"
 import useDataProvider, { dataProvider } from '@/hooks/useDataProvider'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,7 +11,8 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import Modal from './modal/modal'
 import { ModalContext } from '@/context/ModalContext'
-import ModalImage from './modal/ModalImage'
+import ModalImage from '../modal/ModalImage'
+import Avatar from '../avatar/Avatar'
 
 type Props = {
     chat: user,
@@ -49,6 +48,7 @@ function ChatBubbleItem({ chat, index }: Props) {
     }
     const [files, setFiles] = useState<File[]>()
     const handleSendMessage = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
         e.preventDefault()
         if (message || files) {
             const ran = Math.random()
@@ -64,6 +64,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             setMessage('')
             handlePlaySound()
             handleRemoveFile(undefined, true)
+            refScrollChat.current?.scrollTo(0, refScrollChat.current.scrollHeight)
         }
     }
 
@@ -88,12 +89,21 @@ function ChatBubbleItem({ chat, index }: Props) {
         changeChildrenModal(<ModalImage url={url} />);
         (document.getElementById('modal-show') as any).showModal()
     }
+    const refContainer = useRef<HTMLDivElement | null>(null)
+    const [widthContainer, setWidthContainer] = useState(490)
+    useEffect(() => {
+        if (refContainer.current) {
+            const width = refContainer.current.clientWidth + 8;
+            setWidthContainer(width);
+        }
+    }, [refContainer])
     return (
         <motion.div
+            ref={refContainer}
             key={chat.id}
             exit={{ opacity: 0, translateY: 200 }}
             transition={{ type: "spring" }}
-            animate={{ opacity: 1, translateX: (rightPos.current - (index * 490)) }}
+            animate={{ opacity: 1, translateX: (rightPos.current - (index * widthContainer)) }}
             className="card rounded-md z-20 glass w-1/2 sm:w-1/3 xl:w-1/4 h-3/5 fixed translate-x-6 opacity-0 bottom-3 right-14 pt-3 pb-3">
             <div className='card-title  px-4 border-base-100  shadow-md pb-2 '>
                 <Avatar fullName={chat.username} sizeAvatar={8} nameClass='text-lg' />
@@ -117,7 +127,7 @@ function ChatBubbleItem({ chat, index }: Props) {
                                 <div className="chat-header">
                                     <time className="text-xs opacity-50">2 hours ago</time>
                                 </div>
-                                <div className="chat-bubble max-w-1/2 text-sm">{message.message}
+                                <div className="chat-bubble p-3 rounded-md max-w-1/2 text-sm">{message.message}
                                     {message.image?.map((url, index) => {
                                         return (
                                             <div key={index} className='relative' onClick={() => imagePreview(url)}>

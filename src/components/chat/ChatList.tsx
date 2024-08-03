@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, useId } from 'react'
 import { motion } from "framer-motion"
-import Avatar from '../Avatar'
+import Avatar from '../avatar/Avatar'
 import useDataProvider from '@/hooks/useDataProvider'
 import { useDispatch, useSelector } from 'react-redux'
 import { DataProvider, dataProviderActions } from '@/redux/dataProviderSlice'

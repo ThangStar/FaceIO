@@ -5,13 +5,13 @@ function useReconnect() {
     const [status, setStatus] = useState()
     useEffect(() => {
         console.log(1);
-        if(!socket.connected){
+        if(socket.disconnected){
             socket.connect()
         }
         return () => {
             socket.close()
         }
-    }, [status])
+    }, [])
 
     return {status }
 }

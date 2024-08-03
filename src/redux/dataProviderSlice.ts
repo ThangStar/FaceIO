@@ -7,46 +7,6 @@ export type DataProvider = {
 
 export const initialData: DataProvider = {
     chats: [
-        {
-            id: 0,
-            username: 'thangvan1',
-            messages: [
-                {
-                    id: 2,
-                    message: 'hello',
-                    time: 'now',
-                    id_user_send: 0,
-                    id_user_receive: 1
-                },
-                {
-                    id: 3,
-                    message: 'Welcome',
-                    time: 'now',
-                    id_user_send: 0,
-                    id_user_receive: 1
-                }
-            ]
-        },
-        {
-            id: 1,
-            username: 'thangvan2',
-            messages: [
-                {
-                    id: 2,
-                    message: 'hello',
-                    time: 'now',
-                    id_user_send: 0,
-                    id_user_receive: 1
-                },
-                {
-                    id: 3,
-                    message: 'Welcome',
-                    time: 'now',
-                    id_user_send: 0,
-                    id_user_receive: 1
-                }
-            ]
-        }
     ],
 }
 

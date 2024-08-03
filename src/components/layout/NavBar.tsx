@@ -2,13 +2,12 @@ import React from 'react'
 import ToggleTheme from './ToggleTheme'
 import { usePathname } from 'next/navigation'
 import Navigation from './Navigation'
-import Avatar from './Avatar'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
 import MenuSvg from '/public/svg/menu.svg';
-import IconButton from './button/IconButton'
-import ChatList from './chat/ChatList'
-
+import IconButton from '../button/IconButton';
+import ChatList from '../chat/ChatList';
+import Avatar from '../avatar/Avatar';
 
 function NavBar() {
     const pathname = usePathname()
@@ -64,7 +63,7 @@ function NavBarHome() {
                     </div>
 
 
-                    <ToggleTheme iconStyle='w-10 h-10' />
+                    {/* <ToggleTheme iconStyle='w-10 h-10' /> */}
                     <div className="px-2">
                         <div className="flex items-stretch">
                             <a className="btn btn-ghost rounded-btn" href="#">
@@ -73,8 +72,6 @@ function NavBarHome() {
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </nav>
     )

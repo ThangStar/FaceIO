@@ -4,8 +4,9 @@ class Axios {
     constructor(header: string, token: string) {
         this.http = axios.create({
             headers: {
-                ['Authorization']: token
-            },
+                ['Authorization']: token,
+                ['Content-Type']: 'application/x-www-form-urlencoded',
+                },  
             baseURL: process.env.BASE_URL_API || "https://api.github.com",
         });
     }
