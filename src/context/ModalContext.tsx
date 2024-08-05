@@ -1,5 +1,5 @@
 "use client"
-import Modal from '@/components/modal/modal'
+import Modal from '@/components/modal/Modal'
 import React, { ReactNode } from 'react'
 
 export const ModalContext = React.createContext({

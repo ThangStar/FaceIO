@@ -40,7 +40,7 @@ function ChatList({ className }: Props) {
                     >
                         <div className="flex flex-col space-y-3">
                             <div className='flex'>
-                                <Avatar size={8} />
+                                <Avatar sizeAvatar={8} />
                             </div>
                             <div className="text-base-content truncate">
                                 <span className=' font-normal'>

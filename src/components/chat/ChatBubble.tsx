@@ -9,7 +9,6 @@ import ImageSvg from '/public/svg/image.svg'
 import useSound from 'use-sound';
 import clsx from 'clsx'
 import Image from 'next/image'
-import Modal from './modal/modal'
 import { ModalContext } from '@/context/ModalContext'
 import ModalImage from '../modal/ModalImage'
 import Avatar from '../avatar/Avatar'
