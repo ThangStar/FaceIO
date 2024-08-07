@@ -11,30 +11,28 @@ function Footer() {
                 <a className="link link-hover">Advertisement</a>
             </nav>
             <nav>
-                <h6 className="footer-title">Company</h6>
-                <a className="link link-hover">About us</a>
-                <a className="link link-hover">Contact</a>
-                <a className="link link-hover">Jobs</a>
-                <a className="link link-hover">Press kit</a>
+                <h6 className="footer-title">Thông tin</h6>
+                <a className="link link-hover">Phone: +84 123 456 789</a>
+                <a className="link link-hover">Email: aV0g0@example.com</a>
             </nav>
             <nav>
-                <h6 className="footer-title">Legal</h6>
-                <a className="link link-hover">Terms of use</a>
-                <a className="link link-hover">Privacy policy</a>
-                <a className="link link-hover">Cookie policy</a>
+                <h6 className="footer-title">Điều khoản</h6>
+                <a className="link link-hover">Điều khoản sử dụng</a>
+                <a className="link link-hover">Chính sách bảo mật</a>
+                <a className="link link-hover">Chính sách cookie</a>
             </nav>
             <form>
-                <h6 className="footer-title">Newsletter</h6>
+                <h6 className="footer-title">Đăng ký</h6>
                 <fieldset className="form-control w-80">
                     <label className="label">
-                        <span className="label-text">Enter your email address</span>
+                        <span className="label-text">Cập nhật tin tức mới nhất</span>
                     </label>
                     <div className="join">
                         <input
                             type="text"
-                            placeholder="username@site.com"
+                            placeholder="example@email.com"
                             className="input input-bordered join-item" />
-                        <button className="btn btn-primary join-item">Subscribe</button>
+                        <button className="btn btn-primary join-item">Đăng kí</button>
                     </div>
                 </fieldset>
             </form>

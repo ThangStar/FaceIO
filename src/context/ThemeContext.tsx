@@ -6,15 +6,15 @@ export const ThemeContext = React.createContext({
 })
 function ThemeProvider({ children }: any) {
 
-    const [theme, setTheme] = React.useState('business')
+    const [theme, setTheme] = React.useState('valentine')
     const [isMounted, setIsMounted] = React.useState(false)
     React.useEffect(() => {
         setIsMounted(true)
-        const t = localStorage.getItem('theme') || 'business';
+        const t = localStorage.getItem('theme') || 'valentine';
         setTheme(t)
     }, [])
 
-    const changeTheme = (t: 'dark' | 'business') => {
+    const changeTheme = (t: 'dark' | 'valentine') => {
         setTheme(t)
         localStorage.setItem('theme', t)
     }
