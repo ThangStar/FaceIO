@@ -6,7 +6,7 @@ function useReconnect() {
     useEffect(() => {
         console.log(1);
         if(socket.disconnected){
-            socket.connect()
+            // socket.connect()
         }
         return () => {
             socket.close()

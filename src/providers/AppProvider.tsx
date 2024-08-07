@@ -2,8 +2,7 @@
 import Breadcrumbs from '@/components/layout/Breadcrumbs'
 import ModalProvider from '@/context/ModalContext'
 import ThemeProvider from '@/context/ThemeContext'
-import store from '@/redux/store'
-import React, {  } from 'react'
+import React, { } from 'react'
 import { Provider } from 'react-redux'
 import ContainerViewProvider from './ContainerViewProvider'
 import BodyViewProvider from './BodyViewProvider'
@@ -12,14 +11,17 @@ import ChatBubble from '@/components/chat/ChatBubble'
 import NavBar from '@/components/layout/NavBar'
 import Debuger from '@/components/layout/Debuger'
 import Footer from '@/components/layout/Footer'
+import store from '@/redux/store/store'
+import AlertProvider from './AlertProvider'
 function AppProvider({ children }: any) {
     return (
         <Provider store={store}>
             <ThemeProvider>
-               <PreLoaderProvider/>
+                <PreLoaderProvider />
+                <AlertProvider />
                 <ContainerViewProvider>
                     <ModalProvider>
-                    <NavBar />
+                        <NavBar />
                         <Debuger />
                         <ChatBubble />
                         <Breadcrumbs />

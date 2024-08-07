@@ -5,7 +5,7 @@ import ModalRegister from '../modal/ModalRegister'
 import { ModalContext } from '@/context/ModalContext'
 
 function Hero() {
-    const { childrenModal, changeChildrenModal } = useContext<any>(ModalContext)
+    const { childrenModal, changeChildrenModal, changeClassName } = useContext<any>(ModalContext)
 
     const handleShowRegister = () => {
         if (typeof changeChildrenModal === 'function') {

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import CloseSvg from '/public/svg/close.svg'
 import { AnimatePresence, motion } from "framer-motion"
-import useDataProvider, { dataProvider } from '@/hooks/useDataProvider'
 import { useDispatch, useSelector } from 'react-redux'
-import { DataProvider, dataProviderActions } from '@/redux/dataProviderSlice'
+import { DataProvider, dataProviderActions } from '@/redux/slice/dataProviderSlice'
 import SendSvg from '/public/svg/send.svg'
 import ImageSvg from '/public/svg/image.svg'
 import useSound from 'use-sound';
@@ -57,7 +56,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             }
             dispatch(addNewMessage({
                 message: {
-                    id: ran, message, time: 'now', id_user_send: 1, id_user_receive: 2, image: arrStrImage
+                    id: ran, message: message, user_send: 1, user_receive: 10, image: arrStrImage
                 }, userId: 1
             }))
             setMessage('')
@@ -116,7 +115,7 @@ function ChatBubbleItem({ chat, index }: Props) {
 
                 <AnimatePresence mode='sync'>
                     {chat.messages?.map((message, index) => {
-                        const isMe = message.id_user_send === 1
+                        const isMe = message.user_send === 1
                         return (
                             <motion.div
                                 exit={{ opacity: 0, translateY: 200 }}

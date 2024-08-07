@@ -1,15 +1,13 @@
 import React, { HTMLAttributes, useId } from 'react'
 import { motion } from "framer-motion"
 import Avatar from '../avatar/Avatar'
-import useDataProvider from '@/hooks/useDataProvider'
 import { useDispatch, useSelector } from 'react-redux'
-import { DataProvider, dataProviderActions } from '@/redux/dataProviderSlice'
+import { DataProvider, dataProviderActions } from '@/redux/slice/dataProviderSlice'
 type Props = HTMLAttributes<HTMLDivElement> & {
 
 }
 
 function ChatList({ className }: Props) {
-    const { dProvider: { chats }, setDprovider } = useDataProvider()
     const { addNewChat, removeChat } = dataProviderActions
     const dispatch = useDispatch()
     const dataProvider: DataProvider = useSelector((state: any) => state.dataProvider.value)
@@ -21,9 +19,8 @@ function ChatList({ className }: Props) {
                 {
                     id: ran,
                     message: 'Welcome',
-                    time: 'now',
-                    id_user_send: ran,
-                    id_user_receive: ran
+                    user_send: ran,
+                    user_receive: ran
                 }
             ]
         }))
