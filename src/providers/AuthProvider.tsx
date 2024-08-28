@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }: any) => {
     const idToken = useLocalStorage("idToken");
     const router = useRouter()
     const [isLogined, setIsLogined] = useState(false)
-    const [reloginFailed, setReloginFailed] = useState(false)
 
     const relogin = () => {
         const credential = GoogleAuthProvider.credential(idToken)
@@ -33,7 +32,6 @@ export const AuthProvider = ({ children }: any) => {
                 // The credential that was used.
                 const credential = GoogleAuthProvider.credentialFromError(error);
                 console.log('relogin failed!', error);
-                setReloginFailed(true)
                 router.replace('/');
             });
     }
@@ -46,7 +44,7 @@ export const AuthProvider = ({ children }: any) => {
         }
     }, [])
 
-    if (idToken && !reloginFailed) {
+    if (idToken) {
         if (isLogined) {
             return (
                 <>
