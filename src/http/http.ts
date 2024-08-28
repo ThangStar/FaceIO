@@ -8,10 +8,11 @@ export class Axios {
                 ['Authorization']: `Bearer ${Axios.token}`,
                 ['Content-Type']: 'application/x-www-form-urlencoded',
             },
-            baseURL: process.env.BASE_URL_API || "http://192.168.10.223:3001",
+            baseURL: process.env.BASE_URL_API || "http://localhost:3000",
         });
     }
 }
 
 
 export const http = new Axios().http
+

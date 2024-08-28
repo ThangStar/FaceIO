@@ -1,4 +1,5 @@
 import { socket } from '@/http/socket'
+import { user } from '@/types/user'
 import { createSlice } from '@reduxjs/toolkit'
 
 export type DataProvider = {
@@ -16,7 +17,7 @@ export const dataProviderSlice = createSlice({
         value: initialData
     },
     reducers: {
-        addNewChat: (state, action: { payload: user }) => {
+        addNewChat: (state, action: { payload: user}) => {
             state.value = { ...state.value, chats: [...state.value.chats, action.payload] }
         },
         removeChat: (state, action: { payload: { id: number } }) => {
@@ -40,7 +41,6 @@ export const dataProviderSlice = createSlice({
     }
 })
 
-// Action creators are generated for each case reducer function
 export const dataProviderActions = dataProviderSlice.actions
 export default dataProviderSlice.reducer
 

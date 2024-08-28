@@ -11,6 +11,7 @@ import Image from 'next/image'
 import { ModalContext } from '@/context/ModalContext'
 import ModalImage from '../modal/ModalImage'
 import Avatar from '../avatar/Avatar'
+import { user } from '@/types/user'
 
 type Props = {
     chat: user,
@@ -46,7 +47,6 @@ function ChatBubbleItem({ chat, index }: Props) {
     }
     const [files, setFiles] = useState<File[]>()
     const handleSendMessage = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
         e.preventDefault()
         if (message || files) {
             const ran = Math.random()

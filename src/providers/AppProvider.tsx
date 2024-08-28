@@ -12,15 +12,18 @@ import NavBar from '@/components/layout/NavBar'
 import Debuger from '@/components/layout/Debuger'
 import Footer from '@/components/layout/Footer'
 import store from '@/redux/store/store'
-import AlertProvider from './AlertProvider'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import { GoogleAuthProvider } from 'firebase/auth'
+import { AuthProvider } from './AuthProvider'
 function AppProvider({ children }: any) {
     return (
         <Provider store={store}>
             <ThemeProvider>
                 <PreLoaderProvider />
-                <AlertProvider />
-                <ContainerViewProvider>
-                    <ModalProvider>
+                <AuthProvider>
+                    <ContainerViewProvider>
+                        <ToastContainer />
                         <NavBar />
                         <Debuger />
                         <ChatBubble />
@@ -29,8 +32,8 @@ function AppProvider({ children }: any) {
                             {children}
                         </BodyViewProvider>
                         <Footer />
-                    </ModalProvider>
-                </ContainerViewProvider>
+                    </ContainerViewProvider>
+                </AuthProvider>
             </ThemeProvider>
         </Provider>
     )

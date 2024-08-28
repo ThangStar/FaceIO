@@ -1,26 +1,37 @@
-import React, { MouseEventHandler, useState } from 'react'
+import React, { MouseEvent, MouseEventHandler, useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import Image from 'next/image'
 import clsx from 'clsx'
 import GoogleSvg from '/public/svg/google.svg'
 import { useDispatch, useSelector } from 'react-redux'
-import { authActions, registerDto } from '@/redux/slice/authSlice'
 import { loginRule, registerRule } from '@/rules/rules'
 import { FieldValues, useForm, UseFormHandleSubmit } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify'
+import { Action } from '@reduxjs/toolkit'
+import { authActions } from '@/redux/slice/authSlice'
+import { loginDto, registerDto } from '@/firebase/api/auth.api'
+import { useRouter } from 'next/navigation';
+import Modal from './Modal'
+import { getAdditionalUserInfo, getAuth, GoogleAuthProvider, linkWithCredential, OAuthCredential, signInWithCredential, signInWithPopup } from 'firebase/auth'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { firebaseLogin } from '@/firebase/setup'
+
 function ModalRegister() {
   const [tabActive, setTabActive] = useState(1)
-  const dispatch = useDispatch()
-
-  const handleRegister = (data: FieldValues, event?: React.BaseSyntheticEvent) => {
-    console.log("register", data);
-    dispatch(authActions.handleActionRegister(data as registerDto))
+  const dispatch = useDispatch<any>()
+  const router = useRouter()
+  const handleRegister = async (data: FieldValues, event?: React.BaseSyntheticEvent) => {
+    dispatch(authActions.register(data as registerDto))
   }
 
-  const handleLogin = (data: FieldValues, event?: React.BaseSyntheticEvent) => {
-    console.log(data, event);
+  const handleLogin = async (data: FieldValues, event?: React.BaseSyntheticEvent) => {
+    const res = await dispatch(authActions.login(
+      data as loginDto
+    ))
+    const isLoginFailed = res?.meta?.rejectedWithValue
+    !isLoginFailed && router.replace('/home')
   }
-
   const {
     register, handleSubmit: handleResgisterSubmit,
     formState: { errors },
@@ -34,13 +45,35 @@ function ModalRegister() {
   } = useForm({
     resolver: yupResolver(loginRule)
   });
+  function loginGoogleFirebase(event: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>): void {
+    const auth = getAuth();
+    signInWithPopup(auth, firebaseLogin.google())
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result) as OAuthCredential;
+        console.log("login success", credential);
+        toast("Đăng nhập thành công");
+        localStorage.setItem("idToken", JSON.stringify(credential.idToken));
+        const user = result.user;
+        router.replace('/home')
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
 
   return (
-    <div className='flex'>
+    <div className='md:flex'>
       <motion.div
         initial={{ opacity: 0, translateX: 100 }}
         animate={{ opacity: 1, translateX: 0 }}
-        className='px-4 bg-base-200 py-4 transition-all w-1/2'>
+        className='px-4 bg-base-200 py-4 transition-all md:w-1/2'>
         <h2 className='text-2xl text-left mb-3'>FaceIO</h2>
         <p className='pb-6'>Đăng nhập bằng tài khoản của bạn</p>
         <div role="tablist" className="tabs tabs-lifted tabs-md font-bold" >
@@ -58,7 +91,6 @@ function ModalRegister() {
           })}`}>
             {errors.email && <p className=''>*{errors.email.message}</p>}
             {errors.displayName && <p className=''>*{errors.displayName?.message}</p>}
-            {errors.username && <p className=''>*{errors.username?.message}</p>}
             {errors.password && <p className=''>*{errors.password?.message}</p>}
             {errors.rePassword && <p className=''>*{errors.rePassword?.message}</p>}
           </div>
@@ -66,15 +98,16 @@ function ModalRegister() {
           {/* error login */}
           <div hidden={tabActive == 1} className={`text-error font-medium text-sm${clsx({
           })}`}>
-            {errorsLogin.username && <p>*{errorsLogin.username?.message}</p>}
+            {errorsLogin.email && <p>*{errorsLogin.email?.message}</p>}
             {errorsLogin.password && <p>*{errorsLogin.password?.message}</p>}
           </div>
           <div className="flex justify-start gap-2">
-            <button className="btn btn-outline border-base-300 bg-base-100">
+            <button onClick={loginGoogleFirebase} className="btn btn-outline border-base-300 bg-base-100">
               <GoogleSvg className='size-8' />
               <span className="px-2">Google</span>
             </button>
           </div>
+
           <div className='border-t border-base-300 pb-3' />
           <div className='gap-2 grid grid-cols-2'>
             <label className={`input input-bordered flex flex-1 items-center gap-2 ${clsx({
@@ -101,30 +134,13 @@ function ModalRegister() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
                 fill="currentColor"
-                className="h-4 w-4 opacity-70">
+                className="h-5 w-5 opacity-70">
                 <path
-                  d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                <path
-                  d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
               </svg>
               <input type="text" className="grow w-full" placeholder="Họ và tên" {...register('displayName')} />
             </label>
           </div>
-          <label className={`input input-bordered flex items-center gap-2 ${clsx({
-            "hidden": tabActive != 1
-          })}`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70">
-              <path
-                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-            </svg>
-            <input type="text" className="grow" placeholder="Username" {...register('username')} />
-
-          </label>
-
           <label className={`input input-bordered flex items-center gap-2 ${clsx({
             "hidden": tabActive == 1
           })}`}>
@@ -134,9 +150,11 @@ function ModalRegister() {
               fill="currentColor"
               className="h-4 w-4 opacity-70">
               <path
-                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+              <path
+                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
             </svg>
-            <input type="text" className="grow" placeholder="Username" {...registerLogin('username')} />
+            <input type="text" className="grow" placeholder="Email" {...registerLogin('email')} />
           </label>
 
           <label className={`input flex-1 input-bordered flex items-center gap-2 ${clsx({

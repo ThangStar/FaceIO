@@ -63,7 +63,7 @@ function NavBarHome() {
                     </div>
 
 
-                    {/* <ToggleTheme iconStyle='w-10 h-10' /> */}
+                    <ToggleTheme iconStyle='w-10 h-10' />
                     <div className="px-2">
                         <div className="flex items-stretch">
                             <a className="btn btn-ghost rounded-btn" href="#">

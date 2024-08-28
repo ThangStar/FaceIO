@@ -1,29 +1,17 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-export default function AlertProvider({ children }: any) {
+type Props = {
+    contents: string[]
+}
+export default function AlertProvider({ contents }: Props) {
     return (
-        <>
-            <div className="toast">
-                <motion.div
-                    initial={{
-                        opacity: 0.6,
-                        translateX: 200,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        translateX: 0,
-                    }}
-                    exit={{
-                        opacity: 0.6,
-                        translateX: 200,
-                    }}
-                    className="alert alert-info"
-                >
+        <div className="toast z-[1000]">
+            {contents.map((content, index) => (
+                <div key={index} className="alert alert-info">
                     <span>New message arrived.</span>
-                </motion.div>
-            </div>
-            {children}
-        </>
+                </div>
+            ))};
+        </div>
     )
 }

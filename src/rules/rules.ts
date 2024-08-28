@@ -1,9 +1,6 @@
 import { object, ref, string } from "yup";
 
 export const registerRule = object({
-    username:
-        string()
-            .required('Tên tài khoản là trường bắt buộc'),
     email:
         string()
             .email('Email Không hợp lệ')
@@ -27,6 +24,13 @@ export const registerRule = object({
 });
 
 export const loginRule = object({
-    username: string().required(),
-    password: string().min(6).max(12).required(),
+    email:
+        string()
+            .email('Email Không hợp lệ')
+            .required(),
+    password:
+        string()
+            .min(6)
+            .max(12)
+            .required(),
 });

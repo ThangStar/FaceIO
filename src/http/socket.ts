@@ -1,6 +1,7 @@
+import { user } from '@/types/user';
 import { io } from 'socket.io-client';
 
-const URL = process.env.BASE_URL_API || 'http://192.168.10.223:3001';
+const URL = process.env.BASE_URL_API || 'http://localhost:3000';
 
 const userInfo: user = {
     id: 1,

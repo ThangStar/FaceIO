@@ -11,7 +11,12 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['img.daisyui.com', 'picsum.photos'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
 };
 

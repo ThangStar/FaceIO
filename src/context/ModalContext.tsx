@@ -16,7 +16,8 @@ function ModalProvider({ children }: any) {
     }
     return (
         <ModalContext.Provider value={{ childrenModal, changeChildrenModal, changeClassName}}>
-            <Modal className={className}>{childrenModal}</Modal>
+            <Modal className={className}>{childrenModal}
+            </Modal>
             {children}
         </ModalContext.Provider>
     )
