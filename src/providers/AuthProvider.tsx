@@ -30,14 +30,14 @@ export const AuthProvider = ({ children }: any) => {
                 // The email of the user's account used.
                 const email = error.email;
                 // The credential that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                console.log('relogin failed!', error);
                 setIsLogined(true);
                 router.replace('/');
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.log('relogin failed!', error);
             });
     }
     const checkIsLogined = () => {
-        // idToken ? relogin() : router.replace('/');
+        idToken && relogin();
     }
     useEffect(() => {
         checkIsLogined()

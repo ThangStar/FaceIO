@@ -25,7 +25,7 @@ function AppProvider({ children }: any) {
                     <ContainerViewProvider>
                         <ToastContainer />
                         <NavBar />
-                        <Debuger />
+                        {/* <Debuger /> */}
                         <ChatBubble />
                         <Breadcrumbs />
                         <BodyViewProvider>
