@@ -15,6 +15,7 @@ import Modal from '../modal/Modal';
 import DotsHorizontal from '/public/svg/dots_horizontal.svg';
 import Image from 'next/image';
 import { post } from '@/types/post';
+import clsx from 'clsx';
 
 type Props = {
     post: post
@@ -27,6 +28,8 @@ function Artical({ post }: Props) {
         setUrlSelected(url)
     }
     const idModalArtical = `#${useId()}`
+    const [liked, setLiked] = useState(false)
+    const onChangeLiked = () => setLiked(prev => !prev)
 
     return (
         <motion.div
@@ -63,20 +66,25 @@ function Artical({ post }: Props) {
                             }
                             )}
                         </div>
-                        <div className="p-4">
-                            <div className="flex items-center justify-between mt-4">
+                        <div className="p-2 space-y-2 md:p-4">
+                            <div className="flex items-center justify-between mt-2">
                                 <div className='flex gap-4'>
-                                    <button className="btn">
+                                    <button onClick={onChangeLiked} className={`btn hover:bg-error ${clsx(
+                                        {
+                                            'bg-error': liked
+                                        }
+                                    )}`}>
+                                        <span className="font-bold text-lg">22</span>
                                         <HeartSvg className="fill-base-content" />
-                                        Thích
                                     </button>
-
-                                    <button className="btn">
+                                    <button className="btn bg-base-200">
                                         <ChatSvg className="fill-base-content" />
                                         Bình luận
                                     </button>
                                 </div>
-                                <AvatarGroup />
+                                <div className='hidden md:block'>
+                                    <AvatarGroup />
+                                </div>
                             </div>
                         </div>
                     </div>

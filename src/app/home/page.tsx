@@ -60,7 +60,7 @@ const Page = () => {
 
   return (
     <div className='items-center gap-y-6 w-full'>
-      <div className='mx-auto w-fit max-w-full px-6 lg:phone-6'>
+      <div className='mx-auto w-fit max-w-full px-1 md:px-6 lg:phone-6'>
         <div className='mb-6 bg-base-100 p-6 rounded shadow-md'>
           <h4 className='mb-6 font-bold'>
             Bạn đang nghĩ gì? ✨

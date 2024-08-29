@@ -60,7 +60,7 @@ function NavBarHome() {
                             <MenuSvg className="fill-primary" />
                         </IconButton>
                     </div>
-                    {/* <ToggleTheme iconStyle='w-10 h-10' /> */}
+                    <ToggleTheme iconStyle='w-10 h-10' />
                     <div className="">
                         <div className="flex items-stretch">
                             <a className="btn btn-ghost rounded-btn" href="#">
