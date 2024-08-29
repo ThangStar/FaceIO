@@ -76,11 +76,18 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Create file .env.local
         run: |
-          echo "BASE_URL_API variable : $BASE_URL_API"
-          echo "NEXT_PUBLIC_API_KEY variable : $NEXT_PUBLIC_API_KEY"
           touch .env.local
-          echo API_ENDPOINT=${{ vars.BASE_URL_API }} >> .env
+          echo NEXT_PUBLIC_ANALYTICS_ID=${{ vars.NEXT_PUBLIC_ANALYTICS_ID }} >> .env.local
+          echo PORT=${{ vars.PORT }} >> .env.local
+          echo BASE_URL_API=${{ vars.BASE_URL_API }} >> .env.local
           echo NEXT_PUBLIC_API_KEY=${{ vars.NEXT_PUBLIC_API_KEY }} >> .env.local
+          echo NEXT_PUBLIC_AUTH_DOMAIN=${{ vars.NEXT_PUBLIC_AUTH_DOMAIN }} >> .env.local
+          echo NEXT_PUBLIC_PROJECT_ID=${{ vars.NEXT_PUBLIC_PROJECT_ID }} >> .env.local
+          echo NEXT_PUBLIC_STORAGE_BUCKET=${{ vars.NEXT_PUBLIC_STORAGE_BUCKET }} >> .env.local
+          echo NEXT_PUBLIC_MESSAGING_SENDER_ID=${{ vars.NEXT_PUBLIC_MESSAGING_SENDER_ID }} >> .env.local
+          echo NEXT_PUBLIC_APP_ID=${{ vars.NEXT_PUBLIC_APP_ID }} >> .env.local
+          echo NEXT_PUBLIC_MEASUREMENT_ID=${{ vars.NEXT_PUBLIC_MEASUREMENT_ID }} >> .env.local
+          echo NEXT_PUBLIC_DATABASE_URL=${{ vars.NEXT_PUBLIC_DATABASE_URL }} >> .env.local
           cat .env.local
           echo "create .env.local successfully!"
         env:
