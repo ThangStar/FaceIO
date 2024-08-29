@@ -8,6 +8,9 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+env:
+  # Setting an environment variable with the value of a configuration variable
+  env_var: ${{ vars.PRODUCTION }}
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -71,6 +74,11 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
+      - name: Use variables
+        run: |
+          echo "BASE_URL_API variable : $BASE_URL_API"
+        env:
+          BASE_URL_API: ${{ vars.BASE_URL_API }}
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
