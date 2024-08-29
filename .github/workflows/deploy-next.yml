@@ -76,7 +76,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Create file .env.local
         run: |
-          echo your env is ${{ vars.NEXT_PUBLIC_API_KEY }}
+          echo your env is ${{ secrets.NEXT_PUBLIC_API_KEY }}
           touch .env.local
           echo NEXT_PUBLIC_ANALYTICS_ID=${{ vars.NEXT_PUBLIC_ANALYTICS_ID }} >> .env.local
           echo PORT=${{ vars.PORT }} >> .env.local
