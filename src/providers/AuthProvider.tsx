@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: any) => {
             });
     }
     const checkIsLogined = () => {
-        // idToken ? relogin() : router.replace('/');
+        idToken ? relogin() : router.replace('/');
     }
     useEffect(() => {
         checkIsLogined()
