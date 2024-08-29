@@ -90,9 +90,6 @@ jobs:
           echo NEXT_PUBLIC_DATABASE_URL=${{ vars.NEXT_PUBLIC_DATABASE_URL }} >> .env.local
           cat .env.local
           echo "create .env.local successfully!"
-        env:
-          BASE_URL_API: ${{ vars.BASE_URL_API }}
-          NEXT_PUBLIC_API_KEY: ${{ vars.NEXT_PUBLIC_API_KEY }}
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
