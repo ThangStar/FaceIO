@@ -15,6 +15,7 @@ import { postAction } from '@/redux/slice/postSlice'
 import { addPostDto } from '@/firebase/api/post.api'
 import { collection, doc, onSnapshot, query } from 'firebase/firestore'
 import { db } from '@/firebase/setup'
+import { post } from '@/types/post'
 
 const Page = () => {
   const [files, setFiles] = useState<File[]>()
@@ -37,7 +38,7 @@ const Page = () => {
   const dispatch = useDispatch<any>()
 
   const handleAddPost = () => {
-    dispatch(postAction.addPost({ body: content, title: '123' }))
+    dispatch(postAction.addPost({ body: content, title: '123',fileImages: files }))
   }
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,28 +46,25 @@ const Page = () => {
   }
 
   function handleGetAllPost(): void {
-    console.log('start obser');
-    const q = query(collection(db, "cities"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          console.log("New city: ", change.doc.data());
-        }
-        if (change.type === "modified") {
-          console.log("Modified city: ", change.doc.data());
-        }
-        if (change.type === "removed") {
-          console.log("Removed city: ", change.doc.data());
-        }
-      });
-    });
     // dispatch(postAction.getAllPost())
-
   }
+  const [posts, setPosts] = useState<post[]>([])
+  useEffect(() => {
+    onSnapshot(collection(db, "posts"), (doc) => {
+      const posts = doc.docs.map(doc => doc.data() as post)
+      setPosts(posts)
+    });
+    return () => {
+    }
+  }, [])
+
   return (
-    <div className='items-center gap-y-6 '>
-      <div className='mx-auto w-fit'>
-        <div className='mb-12'>
+    <div className='items-center gap-y-6 w-full'>
+      <div className='mx-auto w-fit max-w-full px-6 lg:phone-6'>
+        <div className='mb-12 bg-base-100 p-6 rounded shadow-md'>
+          <h4 className='mb-6 font-bold'>
+            Bạn đang nghĩ gì? ✨
+          </h4>
           <div className='flex gap-6 items-start'>
             <Avatar containerTextStyle='hidden' />
             <form onSubmit={onSubmit} className='w-full'>
@@ -97,12 +95,12 @@ const Page = () => {
               </div>
               <div className='flex justify-between mt-3'>
                 <div className='space-x-4 flex'>
-                  <button className="btn !bg-base-100 rounded-full px-3 border-none relative">
+                  <button className="btn bg-[#00000010] rounded-full px-3 relative">
                     <ImageSvg className="fill-primary" />
                     <input onChange={onChangeImage} onClick={(e) => e.currentTarget.value = ''} type="file" accept="image/*" multiple className='absolute inset-0 z-10 opacity-0 cursor-pointer top-0 bottom-0 right-0 w-full h-full' />
                   </button>
                   <div className='flex w-fit gap-x-2'>
-                    <IconButton><SmileSvg className="fill-secondary" /></IconButton>
+                    <IconButton className='bg-[#00000010]'><SmileSvg className="fill-secondary" /></IconButton>
                     {/* <select value={''} className="select select-ghost w-full max-w-xs">
                       <option disabled selected>Cảm xúc / Hoạt động</option>
                       <option>Svelte</option>
@@ -114,14 +112,19 @@ const Page = () => {
                 <button className="btn btn-outline btn-primary" type='submit'>Đăng</button>
               </div>
             </form>
-            <button className="btn btn-outline btn-primary" onClick={handleGetAllPost}>GET ALL POST</button>
           </div>
         </div>
-
-        <Artical />
-        <Artical />
-        <Artical />
-        <Artical />
+        <h3 className='text-left text-2xl'>Bài đăng mới</h3>
+        <div className="divider divider-start my-0 w-full"></div>
+        {
+          posts.map((post, index) => {
+            return (
+              <div key={index} className='w-full'>
+                <Artical post={post}/>
+              </div>
+            )
+          })
+        }
       </div>
     </div >
   )

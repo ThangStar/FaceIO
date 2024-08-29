@@ -14,9 +14,13 @@ import { ModalContext } from '@/context/ModalContext';
 import Modal from '../modal/Modal';
 import DotsHorizontal from '/public/svg/dots_horizontal.svg';
 import Image from 'next/image';
+import { post } from '@/types/post';
 
+type Props = {
+    post: post
+}
 
-function Artical() {
+function Artical({ post }: Props) {
     const { childrenModal, changeChildrenModal } = useContext<any>(ModalContext)
     const [urlSelected, setUrlSelected] = useState<string>('')
     const showModalImage = (url: string) => {
@@ -26,12 +30,11 @@ function Artical() {
 
     return (
         <motion.div
-            className="artboard artboard-horizontal bg-base-100 phone-6 !h-auto rounded my-8">
+            className="artboard artboard-horizontal bg-base-100 !h-auto rounded my-8">
             <Modal id={idModalArtical}>
                 <ModalImage url={urlSelected} />
             </Modal>
             <div className="flex flex-col md:flex-row ">
-                {/* <Avatar /> */}
                 <div className="flex-1 ">
                     <div className="flex items-center justify-between p-4">
                         <Avatar time='4 ngày trước' />
@@ -40,30 +43,37 @@ function Artical() {
                         </div>
                     </div>
                     <div className="divider divider-start my-0 w-full"></div>
+
                     <div className=''>
-                        <figure className="w-full mt-4">
-                            <a
-                                href={idModalArtical}
-                                onClick={() => showModalImage('https://picsum.photos/500/300')}>
-                                <Image
-                                    width={500}
-                                    height={500}
-                                    src="https://picsum.photos/500/300" alt="Post image"
-                                    className=" w-full max-h-96 cursor-pointer" />
-                            </a>
-                        </figure>
+                        <p className="text-base-content px-6 py-4">{post.body}</p>
+                        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 flex-wrap bg-[#00000020]'>
+                            {post.images && post.images?.split(',').map((image, index) => {
+                                const urlTransform = `https://firebasestorage.googleapis.com/v0/b/chat-app-9dedc.appspot.com/o/images%2F${image}.jpg?alt=media`
+                                return <figure key={index} className="w-fit">
+                                    <a
+                                        href={idModalArtical}
+                                        onClick={() => showModalImage(urlTransform)}>
+                                        <Image
+                                            width={200}
+                                            height={200}
+                                            src={urlTransform} alt="Post image"
+                                            className="w-52 h-52 cursor-pointer object-cover" />
+                                    </a>
+                                </figure>;
+                            }
+                            )}
+                        </div>
                         <div className="p-4">
-                            <p className="text-slate-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod nunc et libero suscipit, vitae euismod orci tincidunt. Sed nec nunc lobortis, ultrices purus in, euismod nunc. Maecenas euismod, dui in aliquam venenatis, lectus nisi fermentum tellus, vel vulputate nulla felis non risus. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. </p>
                             <div className="flex items-center justify-between mt-4">
                                 <div className='flex gap-4'>
                                     <button className="btn">
                                         <HeartSvg className="fill-base-content" />
-                                        Button
+                                        Thích
                                     </button>
 
                                     <button className="btn">
                                         <ChatSvg className="fill-base-content" />
-                                        Button
+                                        Bình luận
                                     </button>
                                 </div>
                                 <AvatarGroup />

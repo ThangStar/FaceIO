@@ -7,7 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import firebaseConfig from "@/firebase/setup";
 import { initEnv } from "../../envConfig";
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["vietnamese"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -26,30 +26,29 @@ function NavBarHome() {
     }
     return (
         <nav className="navbar top-0 shadow-lg bg-neutral text-neutral-content h-[64px] fixed z-30">
-            <div className="container">
-                <div className="flex-1 px-2 mx-2">
+            <div className="w-full flex justify-between">
+                <div className="px-2 mx-2 w-full">
                     <span className="text-lg font-bold">FaceIO</span>
                 </div>
-                <div className="flex-1 px-2 mx-2">
-                    <Navigation className='w-1/2 mx-auto' />
+                <div className=" hidden md:block w-full px-3">
+                    <Navigation className='' />
                 </div>
 
-                <div className='space-x-2 flex-1  flex justify-end'>
-                    <div>
-
-                    <IconButton className='relative' onClick={handleVisibleChatList}>
+                <div className='flex w-full justify-end'>
+                    <div className='flex'>
+                        <IconButton className='relative' onClick={handleVisibleChatList}>
                             <div className='inline-block indicator'>
                                 <span className="indicator-item badge bg-error size-2 p-0 badge-secondary"></span>
                                 <ChatSvg className="fill-primary" />
-                            {
-                                visibleChatList &&
-                                (
-                                    <ChatList className='absolute top-14 right-0 bg-base-200 shadow-md border-primary border border-dashed' />
-                                )
-                            }
+                                {
+                                    visibleChatList &&
+                                    (
+                                        <ChatList className='absolute top-14 right-0 bg-base-200 shadow-md border-primary border border-dashed' />
+                                    )
+                                }
                             </div>
                         </IconButton>
-                           
+
                         <IconButton >
                             <div className='inline-block indicator'>
                                 <span className="indicator-item badge bg-error size-2 p-0 badge-secondary"></span>
@@ -61,13 +60,11 @@ function NavBarHome() {
                             <MenuSvg className="fill-primary" />
                         </IconButton>
                     </div>
-
-
-                    <ToggleTheme iconStyle='w-10 h-10' />
-                    <div className="px-2">
+                    {/* <ToggleTheme iconStyle='w-10 h-10' /> */}
+                    <div className="">
                         <div className="flex items-stretch">
                             <a className="btn btn-ghost rounded-btn" href="#">
-                                <Avatar />
+                                <Avatar containerTextStyle='hidden md:flex'/>
                             </a>
                         </div>
                     </div>

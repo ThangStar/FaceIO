@@ -1,21 +1,35 @@
 import { http } from "@/http/http";
 import { post } from "@/types/post";
-import { pick } from "lodash";
-import { auth, db } from "../setup";
-import { getDatabase, ref, set } from "firebase/database";
-import { addDoc, collection, doc, getDocs, onSnapshot } from "firebase/firestore";
-export type addPostDto = Pick<post, 'title' | 'body'>;
+import { omit, pick } from "lodash";
+import { auth, db, storage } from "../setup";
+import { getDatabase, set } from "firebase/database";
+import { addDoc, collection, doc, DocumentData, DocumentReference, getDoc, getDocs, onSnapshot, setDoc } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
+export type addPostDto = Pick<post, 'title' | 'body' | 'images'> & {
+    fileImages?: File[]
+}
 export const postApi = {
-    add: async (addPostDto: addPostDto) => {
-        const docRef = await addDoc(collection(db, "posts"), addPostDto);
+    add: async (addPostDto: addPostDto): Promise<DocumentReference<DocumentData, DocumentData>> => {
+        const postRef = await addDoc(collection(db, 'posts'), { ...omit(addPostDto, 'fileImages') });
+        return postRef
     },
-    getAll: async () => {
-        // const snapshot = await getDocs(collection(db, "posts"));
-        // console.log(snapshot.docs);
-        // return snapshot
-        
-        onSnapshot(doc(db, "posts", "SF"), (doc) => {
-            console.log("Current data: ");
-        });
+    addImage: async (files: File[]) => {
+        let pids: string[] = [];
+        await Promise.all(files.map(async (file) => {
+            const pid = Date.now().toString();
+            const imagesRef = ref(storage, `images/${pid}.jpg`);
+            await uploadBytes(imagesRef, file).then((snapshot) => {
+                console.log('Uploaded a blob or file: ', file.name);
+                pids.push(pid);
+            });
+        }))
+        return pids;
+    },
+    getAll: () => {
+        let docs: post[] = []
+        // onSnapshot(collection(db, "posts"), (doc) => {
+        //     docs = doc.docs.map(doc => doc.data() as post);
+        // });
+        return docs;
     }
 }

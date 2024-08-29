@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }: any) => {
                 // The credential that was used.
                 const credential = GoogleAuthProvider.credentialFromError(error);
                 console.log('relogin failed!', error);
+                setIsLogined(true);
                 router.replace('/');
             });
     }

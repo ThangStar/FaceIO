@@ -9,18 +9,23 @@ const action = {
         'post/add',
         async (addPostDto: addPostDto, thunkAPI) => {
             try {
-                const data = await postApi.add(addPostDto)
-                return data
+                let imid: string[] = []
+                if(addPostDto.fileImages && addPostDto.fileImages.length){
+                    imid = await postApi.addImage(addPostDto.fileImages)
+                }
+                const postRef = await postApi.add({ ...addPostDto,images: imid && imid.join(',')});
+                return thunkAPI.fulfillWithValue(postRef)
             } catch (error: any) {
                 return thunkAPI.rejectWithValue(error.message)
             }
         }
     ),
-    getAllPost: createAsyncThunk(
+    getAllPost: createAsyncThunk<any>(
         'post',
         async (_, thunkAPI) => {
             try {
-                const data = await postApi.getAll()
+                const data = postApi.getAll()
+                console.log("data",data);
                 return data
             } catch (error: any) {
                 return thunkAPI.rejectWithValue(error.message)
@@ -47,6 +52,13 @@ export const postSlice = createSlice({
             .addCase(action.addPost.rejected, (state, action) => {
                 toast.error(`Lỗi: ${action.payload}`);
             })
+            .addCase(action.getAllPost.fulfilled, (state, action: { payload: { posts: post[] } }) => {
+                state.value = action.payload.posts
+                toast("Đã get all");
+            })
+            .addCase(action.getAllPost.rejected, (state, action) => {
+            })
+
     },
 })
 

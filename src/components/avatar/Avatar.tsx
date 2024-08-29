@@ -34,7 +34,7 @@ function Avatar({ sizeAvatar = 10, fullName = "TV", nameClass, containerTextStyl
                             { scale: 1.1 }
                         }
                         className="tooltip text-left" data-tip="Các tài khoản có huy hiệu đã xác minh đều đã được xác thực và có thể là người đăng ký dịch vụ FaceIO đã xác minh hoặc cá nhân/thương hiệu nổi tiếng.">
-                        <VerifySvg className="fill-primary" />
+                        <VerifySvg className="fill-primary scale-75"/>
                     </motion.div>
                 </div>
                 {time && <p className='text-left opacity-65'>{time}</p>}
