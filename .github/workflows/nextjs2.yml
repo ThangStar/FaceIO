@@ -74,10 +74,15 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
-      - name: Use variables
+      - name: Create file .env.local
         run: |
           echo "BASE_URL_API variable : $BASE_URL_API"
           echo "NEXT_PUBLIC_API_KEY variable : $NEXT_PUBLIC_API_KEY"
+          touch .env.local
+          echo API_ENDPOINT=${{ vars.BASE_URL_API }} >> .env
+          echo NEXT_PUBLIC_API_KEY=${{ vars.NEXT_PUBLIC_API_KEY }} >> .env.local
+          cat .env.local
+          echo "create .env.local successfully!"
         env:
           BASE_URL_API: ${{ vars.BASE_URL_API }}
           NEXT_PUBLIC_API_KEY: ${{ vars.NEXT_PUBLIC_API_KEY }}
