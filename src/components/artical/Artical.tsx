@@ -30,8 +30,8 @@ function Artical({ post }: Props) {
 
     return (
         <motion.div
-            className="artboard artboard-horizontal bg-base-100 !h-auto rounded my-8">
-            <Modal id={idModalArtical}>
+            className="artboard artboard-horizontal bg-base-100 !h-auto rounded my-4">
+            <Modal id={idModalArtical} className='overflow-hidden bg-[#00000096]'>
                 <ModalImage url={urlSelected} />
             </Modal>
             <div className="flex flex-col md:flex-row ">
@@ -45,7 +45,7 @@ function Artical({ post }: Props) {
                     <div className="divider divider-start my-0 w-full"></div>
 
                     <div className=''>
-                        <p className="text-base-content px-6 py-4">{post.body}</p>
+                        <p className="text-base-content px-4 py-4">{post.body}</p>
                         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 flex-wrap bg-[#00000020]'>
                             {post.images && post.images?.split(',').map((image, index) => {
                                 const urlTransform = `https://firebasestorage.googleapis.com/v0/b/chat-app-9dedc.appspot.com/o/images%2F${image}.jpg?alt=media`

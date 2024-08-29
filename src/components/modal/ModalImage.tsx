@@ -7,7 +7,9 @@ type Props = {
 
 function ModalImage({ url }: Props) {
     return (
-        <Image alt='' width={0} sizes='1' className='w-full h-full object-center object-contain rounded-md' height={0} src={url} />
+        <div className='h-screen'>
+            <Image alt='' width={200} sizes='1' className='w-full h-full object-contain rounded-md' height={200} src={url} />
+        </div>
     )
 }
 
