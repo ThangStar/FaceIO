@@ -77,8 +77,10 @@ jobs:
       - name: Use variables
         run: |
           echo "BASE_URL_API variable : $BASE_URL_API"
+          echo "NEXT_PUBLIC_API_KEY variable : $NEXT_PUBLIC_API_KEY"
         env:
           BASE_URL_API: ${{ vars.BASE_URL_API }}
+          NEXT_PUBLIC_API_KEY: ${{ vars.NEXT_PUBLIC_API_KEY }}
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
