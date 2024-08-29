@@ -25,6 +25,12 @@ concurrency:
 
 jobs:
   # Build job
+  display-variables:
+    name: ${{ vars.JOB_NAME }}
+    # You can use configuration variables with the `vars` context for dynamic jobs
+    if: ${{ vars.USE_VARIABLES == 'true' }}
+    runs-on: ${{ vars.RUNNER }}
+    environment: ${{ vars.ENVIRONMENT_STAGE }}
   build:
     runs-on: ubuntu-latest
     steps:
