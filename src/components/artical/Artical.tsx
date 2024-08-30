@@ -5,6 +5,7 @@ import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
 import HeartSvg from '/public/svg/heart.svg';
 import FaceHeart from '/public/svg/face_heart.svg';
+import EditSvg from '/public/svg/edit.svg';
 import HeartAnim from '/public/anim/heart.json';
 import IconButton from '../button/IconButton';
 import Lottie from 'lottie-react';
@@ -14,6 +15,8 @@ import ModalImage from '../modal/ModalImage';
 import { ModalContext } from '@/context/ModalContext';
 import Modal from '../modal/Modal';
 import DotsHorizontal from '/public/svg/dots_horizontal.svg';
+import ReportSvg from '/public/svg/report.svg';
+import TrashSvg from '/public/svg/trash.svg';
 import Image from 'next/image';
 import { post } from '@/types/post';
 import clsx from 'clsx';
@@ -44,6 +47,11 @@ function Artical({ post }: Props) {
         }
     }, [post])
 
+    const [toggleMore, setToggleMore] = useState(false)
+    function handleEdit(id: string): void {
+        alert(id)
+    }
+
     return (
         <motion.div
             className="artboard artboard-horizontal bg-base-100 !h-auto rounded my-4">
@@ -54,8 +62,27 @@ function Artical({ post }: Props) {
                 <div className="flex-1 ">
                     <div className="flex items-center justify-between p-4">
                         <Avatar time={moment(post.createdAt).locale('vi').fromNow()} user={post.userCreated} />
-                        <div className="flex items-center">
-                            <IconButton className='border-none'><DotsHorizontal className="fill-base-content" /></IconButton>
+                        <div className="flex items-center relative">
+                            <IconButton onClick={() => setToggleMore(prev => !prev)} className='border-none'><DotsHorizontal className="fill-base-content" /></IconButton>
+                            <ul className={`menu bg-base-200 absolute shadow-sm top-14 -right-2 z-1 w-56 ${clsx([toggleMore ? 'absolute' : 'hidden'])}`}>
+                                <li>
+                                    <a>
+                                        <ReportSvg />
+                                        Báo cáo bài viết
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <TrashSvg />
+                                        Xóa bài đăng này</a>
+                                </li>
+                                <li>
+                                    <a onClick={() => handleEdit(post.id)}>
+                                        <EditSvg />
+                                        Sửa
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div className="divider divider-start my-0 w-full"></div>

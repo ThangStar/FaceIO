@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ToggleTheme from './ToggleTheme'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Navigation from './Navigation'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
@@ -10,6 +10,7 @@ import ChatList from '../chat/ChatList';
 import Avatar from '../avatar/Avatar';
 import { auth } from '@/firebase/setup';
 import { userAuthToUserDb } from '@/firebase/utils';
+import clsx from 'clsx';
 
 function NavBar() {
     const pathname = usePathname()
@@ -26,6 +27,15 @@ function NavBarHome() {
     const handleVisibleChatList = () => {
         setVisibleChatList(prev => !prev)
     }
+    const router = useRouter()
+    async function handleLogout() {
+        await auth.signOut().then(() => {
+            localStorage.removeItem("idToken")
+            router.replace('/')
+        })
+    }
+    const [toggleSetting, setToggleSetting] = useState(false)
+
     return (
         <nav className="navbar top-0 shadow-lg bg-neutral text-neutral-content h-[64px] fixed z-30">
             <div className="w-full flex justify-between">
@@ -64,10 +74,21 @@ function NavBarHome() {
                     </div>
                     {/* <ToggleTheme iconStyle='w-10 h-10' /> */}
                     <div className="">
-                        <div className="flex items-stretch">
-                            <a className="btn btn-ghost rounded-btn" href="#">
+                        <div className="flex items-stretch relative">
+                            <a className="btn btn-ghost rounded-btn " onClick={() => setToggleSetting(prev => !prev)}>
                                 <Avatar containerTextStyle='hidden md:flex' />
                             </a>
+                            <ul className={`menu shadow-md bg-neutral absolute top-14 -right-2 z-1 w-56 ${clsx([toggleSetting ? 'absolute' : 'hidden'])}`}>
+                                <li>
+                                    <a>Chủ đề</a>
+                                </li>
+                                <li>
+                                    <a>Cài đặt tài khoản</a>
+                                </li>
+                                <li>
+                                    <a onClick={handleLogout}>Đăng xuất</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
