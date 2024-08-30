@@ -10,10 +10,10 @@ const action = {
         async (addPostDto: addPostDto, thunkAPI) => {
             try {
                 let imid: string[] = []
-                if(addPostDto.fileImages && addPostDto.fileImages.length){
+                if (addPostDto.fileImages && addPostDto.fileImages.length) {
                     imid = await postApi.addImage(addPostDto.fileImages)
                 }
-                const postRef = await postApi.add({ ...addPostDto,images: imid && imid.join(',')});
+                const postRef = await postApi.add({ ...addPostDto, images: imid && imid.join(',') });
                 return thunkAPI.fulfillWithValue(postRef)
             } catch (error: any) {
                 return thunkAPI.rejectWithValue(error.message)
@@ -25,13 +25,34 @@ const action = {
         async (_, thunkAPI) => {
             try {
                 const data = postApi.getAll()
-                console.log("data",data);
                 return data
             } catch (error: any) {
                 return thunkAPI.rejectWithValue(error.message)
             }
         }
     ),
+    like: createAsyncThunk(
+        'post/like',
+        async (pid: string, thunkAPI) => {
+            try {
+                const data = await postApi.like(pid)
+                return thunkAPI.fulfillWithValue(data)
+            } catch (error: any) {
+                return thunkAPI.rejectWithValue(error.message)
+            }
+        }
+    ),
+    unLike: createAsyncThunk(
+        'post/unLike',
+        async (pid: string, thunkAPI) => {
+            try {
+                const data = await postApi.unLike(pid)
+                return thunkAPI.fulfillWithValue(data)
+            } catch (error: any) {
+                return thunkAPI.rejectWithValue(error.message)
+            }
+        }
+    )
 }
 
 export const initialData: post[] = []
@@ -58,7 +79,12 @@ export const postSlice = createSlice({
             })
             .addCase(action.getAllPost.rejected, (state, action) => {
             })
+            .addCase(action.like.fulfilled, (state, action) => {
 
+            })
+            .addCase(action.like.rejected, (state, action) => {
+                toast('đã xảy ra lỗi');
+            })
     },
 })
 

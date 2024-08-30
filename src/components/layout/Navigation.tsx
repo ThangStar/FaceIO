@@ -12,13 +12,13 @@ function Navigation({ className }: Props) {
         setTabSelected(pos)
     }
     return (
-        <div className={`btm-nav relative w-full ${className} space-x-1`}>
+        <div className={`btm-nav bg-transparent relative w-full ${className} space-x-1`}>
             <button
-                onClick={() => handleSelectedTab(1)} className={`${clsx({ 'active ': tabSelected === 1 })} hover:bg-base-100 bg-transparent px-5`} >
+                onClick={() => handleSelectedTab(1)} className={`${clsx({ 'active !bg-primary': tabSelected === 1 })} hover:bg-primary bg-transparent px-5`} >
                 {/* <Lottie animationData={HotAnim} loop={true} className='size-12' /> */}
-                <HomeSvg className="fill-base-content"/>
+                <HomeSvg className="fill-white"/>
             </button>
-            <button onClick={() => handleSelectedTab(2)} className={`${clsx({ 'active ': tabSelected === 2 })} hover:bg-base-100 px-5`} >
+            <button onClick={() => handleSelectedTab(2)} className={`${clsx({ 'active !bg-primary': tabSelected === 2 })} hover:bg-primary px-5`} >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -32,7 +32,7 @@ function Navigation({ className }: Props) {
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </button>
-            <button onClick={() => handleSelectedTab(3)} className={`${clsx({ 'active ': tabSelected == 3 })} hover:bg-base-100 px-5`} >
+            <button onClick={() => handleSelectedTab(3)} className={`${clsx({ 'active !bg-primary': tabSelected == 3 })} hover:bg-primary px-5`} >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"

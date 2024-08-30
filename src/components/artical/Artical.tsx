@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useId, useRef, useState } from 'react'
+import React, { useContext, useEffect, useId, useRef, useState } from 'react'
 import Avatar from '../avatar/Avatar'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
@@ -16,9 +16,12 @@ import DotsHorizontal from '/public/svg/dots_horizontal.svg';
 import Image from 'next/image';
 import { post } from '@/types/post';
 import clsx from 'clsx';
+import { auth } from '@/firebase/setup';
+import { useDispatch } from 'react-redux';
+import { postAction } from '@/redux/slice/postSlice';
 
 type Props = {
-    post: post
+    post: post,
 }
 
 function Artical({ post }: Props) {
@@ -29,7 +32,15 @@ function Artical({ post }: Props) {
     }
     const idModalArtical = `#${useId()}`
     const [liked, setLiked] = useState(false)
-    const onChangeLiked = () => setLiked(prev => !prev)
+    const dispatch = useDispatch<any>()
+    const onChangeLiked = () => {
+        liked ? dispatch(postAction.unLike(post.id)) : dispatch(postAction.like(post.id))
+    }
+    useEffect(() => {
+        setLiked(post.likes && post.likes?.indexOf(auth.currentUser?.uid || '') > -1 || false) 
+        return () => {
+        }
+    }, [post])
 
     return (
         <motion.div
@@ -74,7 +85,7 @@ function Artical({ post }: Props) {
                                             'bg-error': liked
                                         }
                                     )}`}>
-                                        <span className="font-bold text-lg">22</span>
+                                        <span className="font-bold text-lg">{post.likes?.length || 0}</span>
                                         <HeartSvg className="fill-base-content" />
                                     </button>
                                     <button className="btn bg-base-200">

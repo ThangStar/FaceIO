@@ -1,8 +1,10 @@
 export interface post {
-    id: number
+    id: string
     title: string
     body: string
     images?: string
     createdAt?: string
     uid?: number
+    likes?: string[]
+    createdBy?: string
 }

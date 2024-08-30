@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux'
 import { postAction } from '@/redux/slice/postSlice'
 import { addPostDto } from '@/firebase/api/post.api'
 import { collection, doc, onSnapshot, query } from 'firebase/firestore'
-import { db } from '@/firebase/setup'
+import { auth, db } from '@/firebase/setup'
 import { post } from '@/types/post'
 
 const Page = () => {
@@ -38,7 +38,7 @@ const Page = () => {
   const dispatch = useDispatch<any>()
 
   const handleAddPost = () => {
-    dispatch(postAction.addPost({ body: content, title: '123',fileImages: files }))
+    dispatch(postAction.addPost({ body: content, title: '123', fileImages: files }))
   }
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +51,10 @@ const Page = () => {
   const [posts, setPosts] = useState<post[]>([])
   useEffect(() => {
     onSnapshot(collection(db, "posts"), (doc) => {
-      const posts = doc.docs.map(doc => doc.data() as post)
+      const posts = doc.docs.map(doc => {
+        const post = { ...doc.data(), id: doc.id }
+        return post as post
+      })
       setPosts(posts)
     });
     return () => {
@@ -118,10 +121,9 @@ const Page = () => {
         <div className="divider divider-start my-0 w-full"></div>
         {
           posts.map((post, index) => {
+            // transform post
             return (
-              <div key={index} className='w-full'>
-                <Artical post={post}/>
-              </div>
+                <Artical post={post} key={post.id} />
             )
           })
         }
