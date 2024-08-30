@@ -1,10 +1,11 @@
-import React, { HTMLAttributes, useEffect } from 'react'
+import React, { HTMLAttributes, useEffect, useState } from 'react'
 import VerifySvg from '/public/svg/verify.svg'
 import { AnimatePresence, motion } from "framer-motion"
-import { auth } from '@/firebase/setup'
+import { app, auth,  } from '@/firebase/setup'
 import Image from 'next/image'
 import { user } from '@/types/user'
 import { userAuthToUserDb } from '@/firebase/utils'
+import { getAuth } from 'firebase/auth'
 
 type Props = HTMLAttributes<HTMLDivElement> & {
     sizeAvatar?: number,
@@ -15,7 +16,17 @@ type Props = HTMLAttributes<HTMLDivElement> & {
     user?: user
 }
 
-function Avatar({ sizeAvatar = 10, user = userAuthToUserDb(auth.currentUser), nameClass, containerTextStyle, time }: Props) {
+function Avatar({ sizeAvatar = 10, user: usr, nameClass, containerTextStyle, time }: Props) {
+    const [user, setUser] = useState<user>()
+    useEffect(() => {
+        if (!usr) {
+            setUser(userAuthToUserDb(auth.currentUser))
+        } else {
+            setUser(usr)
+        }
+        return () => {
+        }
+    }, [auth.currentUser])
     return (
         <div className='justify-center items-center flex gap-3'>
             <motion.div
@@ -24,7 +35,7 @@ function Avatar({ sizeAvatar = 10, user = userAuthToUserDb(auth.currentUser), na
                 }}
                 className="avatar online cursor-pointer">
                 <div className={`rounded-full ring-2 ring-offset-2 ring-offset-base-100 w-${sizeAvatar}`}>
-                    <Image width={80} height={80} alt='avatar' src={user?.photoURL || ''} />
+                    <Image placeholder='empty' width={80} height={80} alt='avatar' src={user?.photoURL || 'https://picsum.photos/200'} />
                 </div>
             </motion.div>
             <div className=''>
@@ -36,7 +47,7 @@ function Avatar({ sizeAvatar = 10, user = userAuthToUserDb(auth.currentUser), na
                             { scale: 1.1 }
                         }
                         className="tooltip text-left" data-tip="Các tài khoản có huy hiệu đã xác minh đều đã được xác thực và có thể là người đăng ký dịch vụ FaceIO đã xác minh hoặc cá nhân/thương hiệu nổi tiếng.">
-                        <VerifySvg className="fill-primary scale-75"/>
+                        <VerifySvg className="fill-primary scale-75" />
                     </motion.div>
                 </div>
                 {time && <p className='text-left opacity-65'>{time}</p>}

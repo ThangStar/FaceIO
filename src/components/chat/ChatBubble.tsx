@@ -14,7 +14,7 @@ import Avatar from '../avatar/Avatar'
 import { user } from '@/types/user'
 
 type Props = {
-    chat: user,
+    chat: message,
     index: number
 }
 function ChatBubbleItem({ chat, index }: Props) {
@@ -104,7 +104,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             animate={{ opacity: 1, translateX: (rightPos.current - (index * widthContainer)) }}
             className="card rounded-md z-20 glass w-1/2 sm:w-1/3 xl:w-1/4 h-3/5 fixed translate-x-6 opacity-0 bottom-3 right-14 pt-3 pb-3">
             <div className='card-title  px-4 border-base-100  shadow-md pb-2 '>
-                <Avatar fullName={chat.username} sizeAvatar={8} nameClass='text-lg' />
+                <Avatar sizeAvatar={8} nameClass='text-lg' />
             </div>
             <button onClick={() => handleCloseBubble(chat.id)} className='absolute right-0 top-0 btn-circle btn bg-transparent border-none shadow-none'>
                 <CloseSvg className='' />
@@ -114,7 +114,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             <div className=" h-full py-3 mb-1 overflow-y-auto scroll-smooth flex flex-col-reverse mx-4 " ref={refScrollChat}>
 
                 <AnimatePresence mode='sync'>
-                    {chat.messages?.map((message, index) => {
+                    {/* {chat.message.map((message, index) => {
                         const isMe = message.user_send === 1
                         return (
                             <motion.div
@@ -139,7 +139,7 @@ function ChatBubbleItem({ chat, index }: Props) {
                                 <div className="chat-footer opacity-50">Seen</div>
                             </motion.div>
                         )
-                    })}
+                    })} */}
                 </AnimatePresence>
             </div>
 
@@ -195,7 +195,8 @@ function ChatBubble() {
             {
                 dataProvider.chats.map((chat, index) => {
                     return (
-                        <ChatBubbleItem chat={chat} key={index} index={index} />
+                        // <ChatBubbleItem chat={chat} key={index} index={index} />
+                        <></>
                     )
                 })
             }

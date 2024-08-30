@@ -14,16 +14,16 @@ function ChatList({ className }: Props) {
 
     const handleNewChat = () => {
         const ran = Math.random()
-        dispatch(addNewChat({
-            ...dataProvider, id: ran, username: `${ran}`, messages: [
-                {
-                    id: ran,
-                    message: 'Welcome',
-                    user_send: ran,
-                    user_receive: ran
-                }
-            ]
-        }))
+        // dispatch(addNewChat({
+        //     ...dataProvider, id: ran, username: `${ran}`, messages: [
+        //         {
+        //             id: ran,
+        //             message: 'Welcome',
+        //             user_send: ran,
+        //             user_receive: ran
+        //         }
+        //     ]
+        // }))
     }
     return (
         <a className={`${className}`} onClick={handleNewChat}>

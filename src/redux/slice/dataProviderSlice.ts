@@ -21,7 +21,7 @@ export const dataProviderSlice = createSlice({
             state.value = { ...state.value, chats: [...state.value.chats, action.payload] }
         },
         removeChat: (state, action: { payload: { id: number } }) => {
-            state.value = { ...state.value, chats: [...state.value.chats.filter((chat) => chat.id !== action.payload.id)] }
+            // state.value = { ...state.value, chats: [...state.value.chats.filter((chat) => chat.id !== action.payload.id)] }
         },
         addNewMessage: (state, action: {
             payload: {
@@ -29,11 +29,11 @@ export const dataProviderSlice = createSlice({
                 userId: number
             }
         }) => {
-            socket.emit("SEND_MESSAGE_TO_USER_ID", action.payload.message)
-            const index = state.value.chats.findIndex((chat) => chat.id === action.payload.userId);
-            const newChats = [...state.value.chats];
-            newChats[0].messages = [action.payload.message, ...newChats[0].messages ? [...newChats[0].messages] : []];
-            state.value = { ...state.value, chats: newChats };
+            // socket.emit("SEND_MESSAGE_TO_USER_ID", action.payload.message)
+            // const index = state.value.chats.findIndex((chat) => chat.id === action.payload.userId);
+            // const newChats = [...state.value.chats];
+            // newChats[0].messages = [action.payload.message, ...newChats[0].messages ? [...newChats[0].messages] : []];
+            // state.value = { ...state.value, chats: newChats };
         },
         connectToServer: (state) => {
             socket.emit("SEND_MESSAGE", "hello server")

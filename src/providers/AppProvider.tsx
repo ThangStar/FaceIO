@@ -21,8 +21,8 @@ function AppProvider({ children }: any) {
         <Provider store={store}>
             <ThemeProvider>
                 <PreLoaderProvider />
-                <AuthProvider>
-                    <ContainerViewProvider>
+                <ContainerViewProvider>
+                    <AuthProvider>
                         <ToastContainer />
                         <NavBar />
                         {/* <Debuger /> */}
@@ -32,8 +32,8 @@ function AppProvider({ children }: any) {
                             {children}
                         </BodyViewProvider>
                         <Footer />
-                    </ContainerViewProvider>
-                </AuthProvider>
+                    </AuthProvider>
+                </ContainerViewProvider>
             </ThemeProvider>
         </Provider>
     )

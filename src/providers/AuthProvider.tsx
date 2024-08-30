@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }: any) => {
     const [isLogined, setIsLogined] = useState(false)
     const pathname = usePathname()
     const relogin = () => {
-        if(typeof idToken != "string") return
+        if (typeof idToken != "string") return
         const credential = GoogleAuthProvider.credential(idToken)
         signInWithCredential(auth, credential)
             .then((value: UserCredential) => {

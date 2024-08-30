@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ToggleTheme from './ToggleTheme'
 import { usePathname } from 'next/navigation'
 import Navigation from './Navigation'
@@ -8,6 +8,8 @@ import MenuSvg from '/public/svg/menu.svg';
 import IconButton from '../button/IconButton';
 import ChatList from '../chat/ChatList';
 import Avatar from '../avatar/Avatar';
+import { auth } from '@/firebase/setup';
+import { userAuthToUserDb } from '@/firebase/utils';
 
 function NavBar() {
     const pathname = usePathname()
@@ -64,7 +66,7 @@ function NavBarHome() {
                     <div className="">
                         <div className="flex items-stretch">
                             <a className="btn btn-ghost rounded-btn" href="#">
-                                <Avatar containerTextStyle='hidden md:flex'/>
+                                <Avatar containerTextStyle='hidden md:flex' />
                             </a>
                         </div>
                     </div>
