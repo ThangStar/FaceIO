@@ -51,10 +51,9 @@ function ModalRegister() {
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result) as OAuthCredential;
-        console.log("login success", credential);
-        toast("Đăng nhập thành công");
         localStorage.setItem("idToken", JSON.stringify(credential.idToken));
         const user = result.user;
+        dispatch(authActions.setProfileToDb())
         router.replace('/home')
       }).catch((error) => {
         // Handle Errors here.

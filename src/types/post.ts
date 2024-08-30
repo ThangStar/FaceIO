@@ -1,3 +1,5 @@
+import { user } from "./user"
+
 export interface post {
     id: string
     title: string
@@ -6,5 +8,6 @@ export interface post {
     createdAt?: string
     uid?: number
     likes?: string[]
-    createdBy?: string
+    createdBy?: string,
+    userCreated?: user
 }

@@ -13,9 +13,10 @@ import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 import { postAction } from '@/redux/slice/postSlice'
 import { addPostDto } from '@/firebase/api/post.api'
-import { collection, doc, onSnapshot, query } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore'
 import { auth, db } from '@/firebase/setup'
 import { post } from '@/types/post'
+import { user } from '@/types/user'
 
 const Page = () => {
   const [files, setFiles] = useState<File[]>()
@@ -39,6 +40,8 @@ const Page = () => {
 
   const handleAddPost = () => {
     dispatch(postAction.addPost({ body: content, title: '123', fileImages: files }))
+    setContent('')
+    setFiles([])
   }
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,13 +52,32 @@ const Page = () => {
     // dispatch(postAction.getAllPost())
   }
   const [posts, setPosts] = useState<post[]>([])
+
+  const mergePostsAndUsers = async (uids: string[], posts: post[]) => {
+    const q = query(collection(db, "users"), where("uid", "in", uids));
+    const snapshot = await getDocs(q)
+    const users: user[] = snapshot.docs.map(doc => doc.data()) as user[]
+
+    posts.map(post => {
+      const user = users.find(user => user.uid === post.createdBy)
+      if (user) {
+        post.userCreated = user
+      }
+    })
+    setPosts(posts)
+  }
   useEffect(() => {
-    onSnapshot(collection(db, "posts"), (doc) => {
+    onSnapshot(query(
+      collection(db, "posts"),
+      limit(10), orderBy('createdAt', 'desc')
+    ), (doc) => {
+      const uids: string[] = []
       const posts = doc.docs.map(doc => {
+        uids.push(doc.data().createdBy)
         const post = { ...doc.data(), id: doc.id }
         return post as post
       })
-      setPosts(posts)
+      mergePostsAndUsers(uids, posts)
     });
     return () => {
     }
@@ -63,7 +85,7 @@ const Page = () => {
 
   return (
     <div className='items-center gap-y-6 w-full'>
-      <div className='mx-auto w-fit max-w-full px-1 md:px-6 lg:phone-6'>
+      <div className='mx-auto w-fit max-w-full px-2 md:px-6 lg:phone-6'>
         <div className='mb-6 bg-base-100 p-6 rounded shadow-md'>
           <h4 className='mb-6 font-bold'>
             Bạn đang nghĩ gì? ✨
@@ -123,7 +145,7 @@ const Page = () => {
           posts.map((post, index) => {
             // transform post
             return (
-                <Artical post={post} key={post.id} />
+              <Artical post={post} key={post.id} />
             )
           })
         }

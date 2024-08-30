@@ -1,11 +1,9 @@
 export interface user {
-    id: number,
-    username: string,
-    messages?: message[],
-    accessToken?: string
-    refreshToken?: string
-    password?: string
+    photoURL?: string,
+    displayName: string | null,
+    uid: string,
+    verified?: boolean,
+    password?: string,
     email?: string
-    displayName?: string
 }
 

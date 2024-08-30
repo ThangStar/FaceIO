@@ -15,10 +15,11 @@ const action = {
             (registerDto)
             try {
                 const data = await authApi.register(registerDto)
-                authApi.updateProfile({
-                    displayName: registerDto.displayName,
+                await authApi.updateProfile({
+                    displayName: registerDto.displayName || 'Anonymous',
                 })
-                return data
+                const isSuccess = await authApi.setProfileToDb()
+                return thunkAPI.fulfillWithValue(true)
             } catch (error: any) {
                 if (error.code == 'auth/email-already-in-use') {
                     return thunkAPI.rejectWithValue("Email đã được sử dụng")
@@ -44,13 +45,20 @@ const action = {
             }
         }
     ),
+    setProfileToDb: createAsyncThunk(
+        'auth/setProfileToDb',
+        async (_, thunkAPI) => {
+            const isSuccess = await authApi.setProfileToDb()
+            return isSuccess ? thunkAPI.fulfillWithValue(true) : thunkAPI.rejectWithValue(false)
+        }
+    )
 }
 
 export const initialData: user = {
-    id: 0,
+    uid: '',
     email: '',
     password: '',
-    username: '',
+    displayName: '',
 }
 
 export const authSlice = createSlice({
@@ -73,12 +81,18 @@ export const authSlice = createSlice({
             .addCase(action.register.rejected, (state, action) => {
                 toast.error(`Lỗi: ${action.payload}`);
             })
-        builder.addCase(action.login.fulfilled, (state, action) => {
-            // Axios.token = action.payload
-            toast("Đăng nhập thành công");
-            saveToStorage('idToken', action.payload)
-        })
+            .addCase(action.login.fulfilled, (state, action) => {
+                // Axios.token = action.payload
+                toast("Đăng nhập thành công");
+                saveToStorage('idToken', action.payload)
+            })
             .addCase(action.login.rejected, (state, action) => {
+                toast.error(`Lỗi: ${action.payload}`);
+            })
+            .addCase(action.setProfileToDb.fulfilled, (state, action) => {
+                toast("Đăng nhập thành công");
+            })
+            .addCase(action.setProfileToDb.rejected, (state, action) => {
                 toast.error(`Lỗi: ${action.payload}`);
             })
     },

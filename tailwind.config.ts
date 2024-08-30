@@ -16,7 +16,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        'error': '#ff6973',
+        'error': '#ff697380',
       }
     },
   },

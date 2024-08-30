@@ -4,6 +4,7 @@ import Avatar from '../avatar/Avatar'
 import ChatSvg from '/public/svg/chat.svg';
 import NotifiSvg from '/public/svg/notification.svg';
 import HeartSvg from '/public/svg/heart.svg';
+import FaceHeart from '/public/svg/face_heart.svg';
 import HeartAnim from '/public/anim/heart.json';
 import IconButton from '../button/IconButton';
 import Lottie from 'lottie-react';
@@ -19,7 +20,8 @@ import clsx from 'clsx';
 import { auth } from '@/firebase/setup';
 import { useDispatch } from 'react-redux';
 import { postAction } from '@/redux/slice/postSlice';
-
+import moment from 'moment';
+import 'moment/locale/vi';
 type Props = {
     post: post,
 }
@@ -37,7 +39,7 @@ function Artical({ post }: Props) {
         liked ? dispatch(postAction.unLike(post.id)) : dispatch(postAction.like(post.id))
     }
     useEffect(() => {
-        setLiked(post.likes && post.likes?.indexOf(auth.currentUser?.uid || '') > -1 || false) 
+        setLiked(post.likes && post.likes?.indexOf(auth.currentUser?.uid || '') > -1 || false)
         return () => {
         }
     }, [post])
@@ -51,7 +53,7 @@ function Artical({ post }: Props) {
             <div className="flex flex-col md:flex-row ">
                 <div className="flex-1 ">
                     <div className="flex items-center justify-between p-4">
-                        <Avatar time='4 ngày trước' />
+                        <Avatar time={moment(post.createdAt).locale('vi').fromNow()} user={post.userCreated} />
                         <div className="flex items-center">
                             <IconButton className='border-none'><DotsHorizontal className="fill-base-content" /></IconButton>
                         </div>
@@ -86,14 +88,14 @@ function Artical({ post }: Props) {
                                         }
                                     )}`}>
                                         <span className="font-bold text-lg">{post.likes?.length || 0}</span>
-                                        <HeartSvg className="fill-base-content" />
+                                        <FaceHeart className="fill-base-content" />
                                     </button>
                                     <button className="btn bg-base-200">
+                                        <span className="font-bold text-lg">22</span>
                                         <ChatSvg className="fill-base-content" />
-                                        Bình luận
                                     </button>
                                 </div>
-                                <div className='hidden md:block'>
+                                <div className='hidden md:flex items-center justify-center gap-x-3'>
                                     <AvatarGroup />
                                 </div>
                             </div>
