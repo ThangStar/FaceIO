@@ -48,7 +48,7 @@ function NavBarHome() {
 
                 <div className='flex w-full justify-end'>
                     <div className='flex'>
-                        <IconButton className='relative' onClick={handleVisibleChatList}>
+                        <IconButton className='hidden md:flex relative' onClick={handleVisibleChatList}>
                             <div className='inline-block indicator'>
                                 <span className="indicator-item badge bg-error size-2 p-0 badge-secondary"></span>
                                 <ChatSvg className="fill-primary" />
@@ -61,8 +61,8 @@ function NavBarHome() {
                             </div>
                         </IconButton>
 
-                        <IconButton >
-                            <div className='inline-block indicator'>
+                        <IconButton className='hidden md:flex' >
+                            <div className='inline-block indicator '>
                                 <span className="indicator-item badge bg-error size-2 p-0 badge-secondary"></span>
                                 <NotifiSvg className="fill-primary" />
                             </div>

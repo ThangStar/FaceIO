@@ -232,7 +232,7 @@ function ModalRegister() {
 
       </motion.div>
       <div className='flex-1'>
-        <Image alt='auth' src={'/bg_auth.jpg'} className='flex-1 w-full object-cover h-full' sizes='100%' objectFit='cover' width={1} height={1}></Image>
+        <Image alt='auth' src={'/images/bg_auth.jpg'} className='flex-1 w-full object-cover h-full' objectFit='cover' width={200} height={200}></Image>
       </div>
     </div>
 
