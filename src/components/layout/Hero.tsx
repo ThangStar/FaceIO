@@ -8,11 +8,6 @@ import Modal from '../modal/Modal'
 
 function Hero() {
     const { childrenModal, changeChildrenModal, changeClassName } = useContext<any>(ModalContext)
-    const handleShowRegister = () => {
-        // if (typeof changeChildrenModal === 'function') {
-        //     changeChildrenModal(<ModalRegister />);
-        // }
-    }
     const idModalAuth = `#${useId()}`
 
     return (
@@ -37,7 +32,7 @@ function Hero() {
                         Tham gia ngay cộng đồng của chúng tôi
                     </p>
                     <div className='space-x-2'>
-                        <a href={idModalAuth} onClick={handleShowRegister} className="gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600
+                        <a href={idModalAuth} className="gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600
                     hover:from-violet-600 hover:to-pink-500
                     px-3 md:px-8 py-3 md:py-4 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all ease-out hover:text-white md:font-semibold"
                         >

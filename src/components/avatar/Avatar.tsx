@@ -1,7 +1,7 @@
 import React, { HTMLAttributes, useEffect, useState } from 'react'
 import VerifySvg from '/public/svg/verify.svg'
 import { AnimatePresence, motion } from "framer-motion"
-import { app, auth,  } from '@/firebase/setup'
+import { app, auth, } from '@/firebase/setup'
 import Image from 'next/image'
 import { user } from '@/types/user'
 import { userAuthToUserDb } from '@/firebase/utils'
@@ -13,10 +13,11 @@ type Props = HTMLAttributes<HTMLDivElement> & {
     nameClass?: React.ComponentProps<'div'>['className'],
     containerTextStyle?: React.ComponentProps<'div'>['className'],
     time?: string,
-    user?: user
+    user?: user,
+    subtitle?: string
 }
 
-function Avatar({ sizeAvatar = 10, user: usr, nameClass, containerTextStyle, time }: Props) {
+function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerTextStyle, time }: Props) {
     const [user, setUser] = useState<user>()
     useEffect(() => {
         if (!usr) {
@@ -50,9 +51,10 @@ function Avatar({ sizeAvatar = 10, user: usr, nameClass, containerTextStyle, tim
                         <VerifySvg className="fill-primary scale-75" />
                     </motion.div>
                 </div>
-                {time && <p className='text-left opacity-65'>{time}</p>}
+                {subtitle && <span className='mr-3'> {subtitle}</span>}
+                {time && <span className='text-left opacity-65'>{time}</span>}
             </div>
-        </div>
+        </div >
     )
 }
 

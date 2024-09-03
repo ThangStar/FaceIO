@@ -25,6 +25,7 @@ import { useDispatch } from 'react-redux';
 import { postAction } from '@/redux/slice/postSlice';
 import moment from 'moment';
 import 'moment/locale/vi';
+import Comment from '../comment/comment';
 type Props = {
     post: post,
 }
@@ -51,7 +52,7 @@ function Artical({ post }: Props) {
     function handleEdit(id: string): void {
         alert(id)
     }
-
+    const [toggleComment, setToggleComment] = useState(false)
     return (
         <motion.div
             className="artboard artboard-horizontal bg-base-100 !h-auto rounded my-4">
@@ -86,7 +87,6 @@ function Artical({ post }: Props) {
                         </div>
                     </div>
                     <div className="divider divider-start my-0 w-full"></div>
-
                     <div className=''>
                         <p className="text-base-content px-4 py-4">{post.body}</p>
                         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 flex-wrap bg-[#00000020]'>
@@ -109,7 +109,7 @@ function Artical({ post }: Props) {
                         <div className="p-2 space-y-2 md:p-4">
                             <div className="flex items-center justify-between mt-2">
                                 <div className='flex gap-4'>
-                                    <button onClick={onChangeLiked} className={`btn hover:bg-error ${clsx(
+                                    <button onClick={onChangeLiked} className={`btn btn-ghost hover:bg-error ${clsx(
                                         {
                                             'bg-error': liked
                                         }
@@ -117,7 +117,9 @@ function Artical({ post }: Props) {
                                         <span className="font-bold text-lg">{post.likes?.length || 0}</span>
                                         <FaceHeart className="fill-base-content" />
                                     </button>
-                                    <button className="btn bg-base-200">
+                                    <button onClick={() => setToggleComment(prev => !prev)} className={`flex gap-x-3 items-center justify-between px-2 py-0 rounded-md btn-ghost ${clsx({
+                                        'bg-secondary' : toggleComment
+                                    })}`}>
                                         <span className="font-bold text-lg">22</span>
                                         <ChatSvg className="fill-base-content" />
                                     </button>
@@ -126,6 +128,11 @@ function Artical({ post }: Props) {
                                     <AvatarGroup />
                                 </div>
                             </div>
+                            {toggleComment &&
+                                <div>
+                                    <div className="divider divider-start my-0 w-full"></div>
+                                    <Comment />
+                                </div>}
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useId, useState } from 'react'
 import ToggleTheme from './ToggleTheme'
 import { usePathname, useRouter } from 'next/navigation'
 import Navigation from './Navigation'
@@ -11,6 +11,8 @@ import Avatar from '../avatar/Avatar';
 import { auth } from '@/firebase/setup';
 import { userAuthToUserDb } from '@/firebase/utils';
 import clsx from 'clsx';
+import Modal from '../modal/Modal';
+import ModalRegister from '../modal/ModalRegister';
 
 function NavBar() {
     const pathname = usePathname()
@@ -119,8 +121,7 @@ const NavBarIntro = () => {
                 </div>
                 <div className="flex-none px-2 mx-2">
                     <div className="flex items-stretch">
-                        <a className="btn btn-ghost btn-sm rounded-btn" href="#">
-                            Đăng nhập
+                        <a className="btn btn-ghost btn-sm rounded-btn">
                         </a>
                     </div>
                 </div>
