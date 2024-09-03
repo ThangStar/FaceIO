@@ -13,7 +13,7 @@
     "@next/env": "^14.2.7",
     "@reduxjs/toolkit": "^2.2.7",
     "@svgr/webpack": "^8.1.0",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "clsx": "^2.1.1",
     "firebase": "^10.13.0",
     "framer-motion": "^11.3.19",
