@@ -109,7 +109,7 @@ function Artical({ post }: Props) {
                         <div className="p-2 space-y-2 md:p-4">
                             <div className="flex items-center justify-between mt-2">
                                 <div className='flex gap-4'>
-                                    <button onClick={onChangeLiked} className={`btn btn-ghost hover:bg-error ${clsx(
+                                    <button onClick={onChangeLiked} className={`btn rounded-md hover:text-base-content btn-outline hover:bg-error ${clsx(
                                         {
                                             'bg-error': liked
                                         }
@@ -117,7 +117,7 @@ function Artical({ post }: Props) {
                                         <span className="font-bold text-lg">{post.likes?.length || 0}</span>
                                         <FaceHeart className="fill-base-content" />
                                     </button>
-                                    <button onClick={() => setToggleComment(prev => !prev)} className={`flex gap-x-3 items-center justify-between px-2 py-0 rounded-md btn-ghost ${clsx({
+                                    <button onClick={() => setToggleComment(prev => !prev)} className={`flex gap-x-3 items-center justify-between px-2 py-0 rounded-md btn btn-outline hover:bg-secondary hover:text-base-content ${clsx({
                                         'bg-secondary' : toggleComment
                                     })}`}>
                                         <span className="font-bold text-lg">22</span>

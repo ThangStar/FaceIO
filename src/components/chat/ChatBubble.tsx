@@ -14,16 +14,16 @@ import Avatar from '../avatar/Avatar'
 import { user } from '@/types/user'
 
 type Props = {
-    chat: message,
-    index: number
+    index: number,
+    userId: string
 }
-function ChatBubbleItem({ chat, index }: Props) {
+function ChatBubbleItem({ index, userId }: Props) {
     // const { dProvider: { chats }, setDprovider } = useDataProvider()
     const rightPos = useRef(24)
     const dispatch = useDispatch()
 
     const { addNewChat, removeChat, addNewMessage } = dataProviderActions
-    const handleCloseBubble = (idUser: number) => {
+    const handleCloseBubble = (idUser: string) => {
         // setDprovider({ chats: [...chats.filter((chat) => chat.id !== idUser)] })
         dispatch(removeChat({ id: idUser }))
     }
@@ -56,7 +56,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             }
             dispatch(addNewMessage({
                 message: {
-                    id: ran, message: message, user_send: 1, user_receive: 10, image: arrStrImage
+                    id: ran.toString(), message: message, user_send: '', user_receive: '10', image: arrStrImage
                 }, userId: 1
             }))
             setMessage('')
@@ -98,7 +98,7 @@ function ChatBubbleItem({ chat, index }: Props) {
     return (
         <motion.div
             ref={refContainer}
-            key={chat.id}
+            key={index}
             exit={{ opacity: 0, translateY: 200 }}
             transition={{ type: "spring" }}
             animate={{ opacity: 1, translateX: (rightPos.current - (index * widthContainer)) }}
@@ -106,7 +106,7 @@ function ChatBubbleItem({ chat, index }: Props) {
             <div className='card-title  px-4 border-base-100  shadow-md pb-2 '>
                 <Avatar sizeAvatar={8} nameClass='text-lg' />
             </div>
-            <button onClick={() => handleCloseBubble(chat.id)} className='absolute right-0 top-0 btn-circle btn bg-transparent border-none shadow-none'>
+            <button onClick={() => handleCloseBubble(userId)} className='absolute right-0 top-0 btn-circle btn bg-transparent border-none shadow-none'>
                 <CloseSvg className='' />
             </button>
 
@@ -193,10 +193,9 @@ function ChatBubble() {
     return (
         <AnimatePresence mode='sync'>
             {
-                dataProvider.chats.map((chat, index) => {
+                dataProvider.users.map((userId, index) => {
                     return (
-                        // <ChatBubbleItem chat={chat} key={index} index={index} />
-                        <></>
+                        <ChatBubbleItem userId={userId} key={index} index={index} />
                     )
                 })
             }

@@ -1,8 +1,10 @@
-import React, { HTMLAttributes, useId } from 'react'
+import React, { HTMLAttributes, useEffect, useId, useState } from 'react'
 import { motion } from "framer-motion"
 import Avatar from '../avatar/Avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { DataProvider, dataProviderActions } from '@/redux/slice/dataProviderSlice'
+import { collection, limit, onSnapshot, or, orderBy, query, where } from 'firebase/firestore'
+import { auth, db } from '@/firebase/setup'
 type Props = HTMLAttributes<HTMLDivElement> & {
 
 }
@@ -12,44 +14,39 @@ function ChatList({ className }: Props) {
     const dispatch = useDispatch()
     const dataProvider: DataProvider = useSelector((state: any) => state.dataProvider.value)
 
-    const handleNewChat = () => {
-        const ran = Math.random()
-        // dispatch(addNewChat({
-        //     ...dataProvider, id: ran, username: `${ran}`, messages: [
-        //         {
-        //             id: ran,
-        //             message: 'Welcome',
-        //             user_send: ran,
-        //             user_receive: ran
-        //         }
-        //     ]
-        // }))
+    const handleNewChat = (idUser: string) => {
+        dispatch(addNewChat({idUser}))
     }
+    const [messages, setMessages] = useState<message[]>([])
+    useEffect(() => {
+        onSnapshot(query(
+            collection(db, "messages"), or(where('user_send', '==', '2ia9LovcgFg6cKboSH83HdpzesC2'), where('user_receive', '==', auth.currentUser?.uid)),
+            limit(10), orderBy('createdAt', 'desc'),
+        ), (doc) => {
+            setMessages(doc.docs.map((item) => {
+                return { ...item.data() as message, id: item.id }
+            }));
+            console.log(doc.docs.map((item) => item.data() as message));
+        });
+        return () => {
+        }
+    }, [])
     return (
-        <a className={`${className}`} onClick={handleNewChat}>
+        <div className={`${className}`}>
             <ul className="list">
-                {[1, 2, 3, 4, 5].map((item) => (
+                {messages.map((message) => (
                     <motion.li
-                        layoutId={`chat-${item}`}
+                        layoutId={`chat-${message.id}`}
                         className="relative flex items-center gap-4 p-4 border-b border-base-100"
-                        key={item}
+                        key={message.id}
                         whileHover={{ scale: 1.02 }}
+                        onClick={() => handleNewChat(message.user_receive)}
                     >
-                        <div className="flex flex-col space-y-3">
-                            <div className='flex'>
-                                <Avatar sizeAvatar={8} />
-                            </div>
-                            <div className="text-base-content truncate">
-                                <span className=' font-normal'>
-                                    <span className='pr-6'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
-                                    <span>Vừa xong</span>
-                                </span>
-                            </div>
-                        </div>
+                        <Avatar sizeAvatar={8} subtitle={message.message} time={message.createdAt} />
                     </motion.li>
                 ))}
             </ul>
-        </a>
+        </div>
     )
 }
 

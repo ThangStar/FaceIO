@@ -11,7 +11,7 @@ export type addPostDto = Pick<post, 'title' | 'body' | 'images' | 'createdAt' | 
 }
 export const messageApi = {
     sendText: async (message: message) => {
-        const messageRef = await addDoc(collection(db, 'message'), { ...message })
+        const messageRef = await addDoc(collection(db, 'messages'), { ...message })
     },
     chated: async () => {
         const q = query(collection(db, "messages"), where("uid", "in", auth.currentUser?.uid));

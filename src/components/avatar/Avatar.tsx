@@ -29,7 +29,7 @@ function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerText
         }
     }, [auth.currentUser])
     return (
-        <div className='justify-center items-center flex gap-3'>
+        <div className='justify-center items-center flex gap-3 relative'>
             <motion.div
                 whileHover={{
                     scale: 1.1
@@ -37,6 +37,7 @@ function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerText
                 className="avatar online cursor-pointer">
                 <div className={`rounded-full ring-2 ring-offset-2 ring-offset-base-100 w-${sizeAvatar}`}>
                     <Image placeholder='empty' width={80} height={80} alt='avatar' src={user?.photoURL || 'https://picsum.photos/200'} />
+
                 </div>
             </motion.div>
             <div className=''>
@@ -51,8 +52,10 @@ function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerText
                         <VerifySvg className="fill-primary scale-75" />
                     </motion.div>
                 </div>
-                {subtitle && <span className='mr-3'> {subtitle}</span>}
-                {time && <span className='text-left opacity-65'>{time}</span>}
+                <div className='flex'>
+                    {subtitle && <span className='mr-3'> {subtitle}</span>}
+                    {time && <span className='text-left opacity-65'>{time}</span>}
+                </div>
             </div>
         </div >
     )

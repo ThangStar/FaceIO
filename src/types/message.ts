@@ -1,7 +1,8 @@
 type message = {
-    id: number
+    id: string
     message: string
-    user_send: number
-    user_receive: number
-    image?: string[]
+    user_send: string
+    user_receive: string
+    image?: string[],
+    createdAt?: string
 }

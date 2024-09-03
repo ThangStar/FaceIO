@@ -3,12 +3,11 @@ import { user } from '@/types/user'
 import { createSlice } from '@reduxjs/toolkit'
 
 export type DataProvider = {
-    chats: user[],
+    users: string[],
 }
 
 export const initialData: DataProvider = {
-    chats: [
-    ],
+    users: []
 }
 
 export const dataProviderSlice = createSlice({
@@ -17,11 +16,11 @@ export const dataProviderSlice = createSlice({
         value: initialData
     },
     reducers: {
-        addNewChat: (state, action: { payload: user}) => {
-            state.value = { ...state.value, chats: [...state.value.chats, action.payload] }
+        addNewChat: (state, action: { payload: { idUser: string } }) => {
+            state.value = { ...state.value, users: [...state.value.users, action.payload.idUser] }
         },
-        removeChat: (state, action: { payload: { id: number } }) => {
-            // state.value = { ...state.value, chats: [...state.value.chats.filter((chat) => chat.id !== action.payload.id)] }
+        removeChat: (state, action: { payload: { id: string } }) => {
+            state.value = { ...state.value, users: [...state.value.users.filter((chat) => chat !== action.payload.id)] }
         },
         addNewMessage: (state, action: {
             payload: {
