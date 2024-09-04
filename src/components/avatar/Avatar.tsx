@@ -27,7 +27,7 @@ function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerText
         }
         return () => {
         }
-    }, [auth.currentUser])
+    }, [auth.currentUser, usr])
     return (
         <div className='justify-center items-center flex gap-3 relative'>
             <motion.div

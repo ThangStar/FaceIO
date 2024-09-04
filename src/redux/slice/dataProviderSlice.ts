@@ -1,4 +1,6 @@
+import { messageApi, sendMessageDto } from '@/firebase/api/message.api'
 import { socket } from '@/http/socket'
+import { message } from '@/types/message'
 import { user } from '@/types/user'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -24,15 +26,22 @@ export const dataProviderSlice = createSlice({
         },
         addNewMessage: (state, action: {
             payload: {
-                message: message,
-                userId: number
+                message: sendMessageDto,
             }
         }) => {
-            // socket.emit("SEND_MESSAGE_TO_USER_ID", action.payload.message)
-            // const index = state.value.chats.findIndex((chat) => chat.id === action.payload.userId);
-            // const newChats = [...state.value.chats];
-            // newChats[0].messages = [action.payload.message, ...newChats[0].messages ? [...newChats[0].messages] : []];
-            // state.value = { ...state.value, chats: newChats };
+            console.log(action.payload.message.imagesFile);
+            
+            if (action.payload.message.imagesFile && action.payload.message.imagesFile.length > 0) {
+                console.log('alo');
+                
+                messageApi.addImage(action.payload.message.imagesFile || []).then((images: string[]) => {
+                    messageApi.send({...action.payload.message, images: images})
+                })
+            }else{
+                console.log(action.payload.message);
+                
+                messageApi.send(action.payload.message)
+            }
         },
         connectToServer: (state) => {
             socket.emit("SEND_MESSAGE", "hello server")

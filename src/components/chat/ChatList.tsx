@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DataProvider, dataProviderActions } from '@/redux/slice/dataProviderSlice'
 import { collection, limit, onSnapshot, or, orderBy, query, where } from 'firebase/firestore'
 import { auth, db } from '@/firebase/setup'
+import { message } from '@/types/message'
+import moment from 'moment'
+import 'moment/locale/vi';
+
 type Props = HTMLAttributes<HTMLDivElement> & {
 
 }
@@ -42,7 +46,7 @@ function ChatList({ className }: Props) {
                         whileHover={{ scale: 1.02 }}
                         onClick={() => handleNewChat(message.user_receive)}
                     >
-                        <Avatar sizeAvatar={8} subtitle={message.message} time={message.createdAt} />
+                        <Avatar sizeAvatar={8} subtitle={message.message} time={moment(message.createdAt).locale('vi').fromNow()} />
                     </motion.li>
                 ))}
             </ul>

@@ -1,8 +1,11 @@
-type message = {
-    id: string
+import { user } from "./user"
+
+export type message = {
+    id?: string
     message: string
     user_send: string
     user_receive: string
-    image?: string[],
-    createdAt?: string
+    images?: string[],
+    createdAt?: string,
+    imagesFile? : File[]
 }

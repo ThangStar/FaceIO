@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: any) => {
                 console.log('relogin success!');
                 toast(`Chào ${value.user.displayName}!`);
                 setIsLogined(true);
-                pathname !== '/home' && router.replace('/home')
+                pathname == '/' && router.replace('/home')
             })
             .catch((error) => {
                 // Handle Errors here.
