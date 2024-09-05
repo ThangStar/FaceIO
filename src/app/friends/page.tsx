@@ -1,10 +1,10 @@
 "use client"
-import { auth, db } from '@/firebase/setup'
+import { db } from '@/firebase/setup'
 import { dataProviderActions } from '@/redux/slice/dataProviderSlice'
 import { user } from '@/types/user'
-import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore'
+import { collection, getDocs, limit, query } from 'firebase/firestore'
 import Image from 'next/image'
-import React, { Suspense, useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 const ProfilePlaholder = () => {
   return (
@@ -24,11 +24,9 @@ const ProfilePlaholder = () => {
 function Page() {
   const [friends, setFriends] = useState<user[]>([])
   const fetchFriends = async () => {
-    console.log("here");
     const q = query(collection(db, "users"), limit(10));
     const snapshot = await getDocs(q)
     setFriends(snapshot.docs.map(doc => doc.data() as user))
-    console.log(snapshot.docs.length);
     return () => {
     }
   }
@@ -54,7 +52,7 @@ function Page() {
       <div className='grid sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 md:grid-cols-4 gap-3 items-center'>
         <Suspense fallback={<ProfilePlaholder />}>
           {friends.map((friend, index) => (
-            <div key={friend.uid} className="card glass p-6">
+            <div key={friend.uid} className="card border p-6">
               <figure>
                 <Image
                   width={200}

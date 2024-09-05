@@ -1,15 +1,16 @@
 import { messageApi, sendMessageDto } from '@/firebase/api/message.api'
-import { socket } from '@/http/socket'
 import { message } from '@/types/message'
 import { user } from '@/types/user'
 import { createSlice } from '@reduxjs/toolkit'
 
 export type DataProvider = {
     users: string[],
+    messages: message[]
 }
 
 export const initialData: DataProvider = {
-    users: []
+    users: [],
+    messages: []
 }
 
 export const dataProviderSlice = createSlice({
@@ -32,7 +33,6 @@ export const dataProviderSlice = createSlice({
             console.log(action.payload.message.imagesFile);
             
             if (action.payload.message.imagesFile && action.payload.message.imagesFile.length > 0) {
-                console.log('alo');
                 
                 messageApi.addImage(action.payload.message.imagesFile || []).then((images: string[]) => {
                     messageApi.send({...action.payload.message, images: images})
@@ -43,8 +43,11 @@ export const dataProviderSlice = createSlice({
                 messageApi.send(action.payload.message)
             }
         },
-        connectToServer: (state) => {
-            socket.emit("SEND_MESSAGE", "hello server")
+        // connectToServer: (state) => {
+        //     socket.emit("SEND_MESSAGE", "hello server")
+        // },
+        setMessages: (state, action: {payload: {messages: message[]}}) => {
+            state.value.messages = [...action.payload.messages]
         }
     }
 })

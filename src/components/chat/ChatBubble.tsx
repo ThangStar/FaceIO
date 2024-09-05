@@ -43,7 +43,7 @@ function ChatBubbleItem({ index, userId }: Props) {
     const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMessage(e.target.value)
     }
-    const [play] = useSound('https://cdn.pixabay.com/audio/2022/03/10/audio_dbb9bd8504.mp3');
+    const [play] = useSound('/audio/pop.mp3');
 
     const handlePlaySound = () => {
         play()
@@ -118,7 +118,6 @@ function ChatBubbleItem({ index, userId }: Props) {
         })
         fetchUser()
         onSnapshotMessages()
-        console.log('has change message');
 
         return () => {
         }
@@ -138,8 +137,8 @@ function ChatBubbleItem({ index, userId }: Props) {
             exit={{ opacity: 0, translateY: 200 }}
             transition={{ type: "spring" }}
             animate={{ opacity: 1, translateX: (rightPos.current - (index * widthContainer)) }}
-            className="card rounded-md z-20 glass w-1/2 sm:w-1/3 xl:w-1/4 h-3/5 fixed translate-x-6 opacity-0 bottom-3 right-14 pt-3 pb-3">
-            <div className='card-title  px-4 border-base-100  shadow-md pb-2 '>
+            className="card rounded-md z-20 glass sm:w-1/3 xl:w-1/4 h-4/5 md:h-3/5 fixed translate-x-6 opacity-0 bottom-3 right-14 pt-3 pb-3">
+            <div className='card-title px-4 border-base-100  shadow-md pb-2 '>
                 <Avatar sizeAvatar={8} nameClass='text-lg' user={user} />
             </div>
             <button onClick={() => handleCloseBubble(userId)} className='absolute right-0 top-0 btn-circle btn bg-transparent border-none shadow-none'>

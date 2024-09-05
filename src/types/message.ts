@@ -7,5 +7,7 @@ export type message = {
     user_receive: string
     images?: string[],
     createdAt?: string,
-    imagesFile? : File[]
+    imagesFile? : File[],
+    user?: user,
+    seenUserId? : string[]
 }

@@ -14,10 +14,11 @@ type Props = HTMLAttributes<HTMLDivElement> & {
     containerTextStyle?: React.ComponentProps<'div'>['className'],
     time?: string,
     user?: user,
-    subtitle?: string
+    subtitle?: string,
+    subtitleStyle?: React.ComponentProps<'div'>['className']
 }
 
-function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerTextStyle, time }: Props) {
+function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, subtitleStyle, containerTextStyle, time }: Props) {
     const [user, setUser] = useState<user>()
     useEffect(() => {
         if (!usr) {
@@ -53,7 +54,7 @@ function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, containerText
                     </motion.div>
                 </div>
                 <div className='flex'>
-                    {subtitle && <span className='mr-3'> {subtitle}</span>}
+                    {subtitle && <span className={`mr-3 ${subtitleStyle}`}> {subtitle}</span>}
                     {time && <span className='text-left opacity-65'>{time}</span>}
                 </div>
             </div>

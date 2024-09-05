@@ -11,7 +11,11 @@ export type sendMessageDto = Omit<message, 'id'>
 export const messageApi = {
     send: async (message: sendMessageDto) => {
         await addDoc(collection(db, 'messages'), {
-           ...omit({ ...message, createdAt: moment(moment.now()).format() }, 'imagesFile')
+            ...omit({
+                ...message,
+                createdAt: moment(moment.now()).format(),
+                seenUserId: [auth.currentUser?.uid],
+            }, 'imagesFile')
         } as sendMessageDto)
     },
     addImage: async (files: File[]) => {
@@ -31,5 +35,12 @@ export const messageApi = {
         const snapshot = await getDocs(q)
         return snapshot;
     },
+    seen: async (mid: string) => {
+        await updateDoc(doc(db, 'messages', mid), {
+            seenUserId: arrayUnion(auth.currentUser?.uid)
+        })
+    },
+    recall: async (mid: string) => {
 
+    }
 }

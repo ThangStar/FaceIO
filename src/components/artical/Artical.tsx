@@ -118,7 +118,7 @@ function Artical({ post }: Props) {
                                         <FaceHeart className="fill-base-content" />
                                     </button>
                                     <button onClick={() => setToggleComment(prev => !prev)} className={`flex gap-x-3 items-center justify-between px-2 py-0 rounded-md btn btn-outline hover:bg-secondary hover:text-base-content ${clsx({
-                                        'bg-secondary' : toggleComment
+                                        'bg-secondary': toggleComment
                                     })}`}>
                                         <span className="font-bold text-lg">22</span>
                                         <ChatSvg className="fill-base-content" />

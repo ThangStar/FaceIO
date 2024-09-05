@@ -11,6 +11,7 @@ export let db: Firestore;
 export let app: FirebaseApp;
 export const AuthProvider = ({ children }: any) => {
     const idToken = useLocalStorage("idToken");
+    const [mounted, setMounted] = useState(false)
     const router = useRouter()
     const [isLogined, setIsLogined] = useState(false)
     const pathname = usePathname()
@@ -35,19 +36,21 @@ export const AuthProvider = ({ children }: any) => {
                 pathname !== '/' && router.replace('/');
                 const credential = GoogleAuthProvider.credentialFromError(error);
                 console.log('relogin failed!', error);
+            }).finally(() => {
+                setMounted(true)
             });
     }
     const checkIsLogined = () => {
         idToken ? relogin() : (pathname !== '/' && router.replace('/'));
     }
     useEffect(() => {
-        checkIsLogined()
+        !auth.currentUser ? checkIsLogined() : setMounted(true)
         return () => {
         }
     }, [])
     return (
         <>
-            {children}
+            {mounted ? (<>{children}</>) : (<span className="loading loading-spinner loading-lg"></span>)}
         </>
     )
 }
