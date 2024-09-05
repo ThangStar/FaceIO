@@ -54,7 +54,7 @@ function NavBarHome() {
 
                 <div className='flex w-full justify-end'>
                     <div className='flex'>
-                        <IconButton className='hidden md:flex relative' onClick={handleVisibleChatList}>
+                        <IconButton className=' md:flex relative' onClick={handleVisibleChatList}>
                             <div className='inline-block indicator'>
                                 <span className={`indicator-item badge bg-error p-1 badge-secondary ${clsx([
                                     lengthMessage.current ? '!visible' : 'hidden',
@@ -63,13 +63,13 @@ function NavBarHome() {
                                 {
                                     visibleChatList &&
                                     (
-                                        <ChatList className='absolute top-14 right-0 bg-base-200 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
+                                        <ChatList className='absolute top-14 -left-20 sm:left-0 bg-base-200 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
                                     )
                                 }
                             </div>
                         </IconButton>
 
-                        <IconButton className='hidden md:flex' >
+                        <IconButton className=' md:flex' >
                             <div className='inline-block indicator '>
                                 <span className={`indicator-item badge bg-error p-1 badge-secondary ${clsx([
                                     lengthMessage.current ? '!visible' : 'hidden',
@@ -78,11 +78,28 @@ function NavBarHome() {
                             </div>
                         </IconButton>
 
-                        <IconButton className='bg-transparent border-none '>
-                            <MenuSvg className="fill-primary" />
-                        </IconButton>
+                        <div className="drawer md:flex w-12">
+                            <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                            <div className="drawer-content">
+                                {/* Page content here */}
+                                <label htmlFor="my-drawer" className="drawer-button">
+                                    <IconButton className='bg-transparent border-none '>
+                                        <MenuSvg className="fill-primary" />
+                                    </IconButton>
+                                </label>
+                            </div>
+                            <div className="drawer-side">
+                                <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+                                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                                    {/* Sidebar content here */}
+                                    <li>
+                                        <a>Sidebar Item 1</a></li>
+                                    <li><a>Sidebar Item 2</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <ToggleTheme iconStyle='w-10 h-10' />
+                    <ToggleTheme className='hidden md:block' iconStyle='w-10 h-10' />
                     <div className="">
                         <div className="flex items-stretch relative">
                             <a className="btn btn-ghost rounded-btn " onClick={() => setToggleSetting(prev => !prev)}>

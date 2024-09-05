@@ -6,7 +6,7 @@ import React, { HTMLAttributes, HTMLProps, useContext, useEffect, useRef, useSta
 type Props = HTMLAttributes<HTMLDivElement> & {
     iconStyle?: HTMLProps<HTMLElement>["className"];
 }
-const ToggleTheme = ({ iconStyle }: Props) => {
+const ToggleTheme = ({ iconStyle, className}: Props) => {
     // const { toggleTheme, theme } = useTheme();
     const themes = useRef(["light",
         "dark",
@@ -26,7 +26,7 @@ const ToggleTheme = ({ iconStyle }: Props) => {
     ])
     const { theme, changeTheme } = useContext<any>(ThemeContext)
     return (
-        <div className="dropdown">
+        <div className={`dropdown ${className}`}>
             <div tabIndex={0} role="button" className="btn m-1">
                 Theme
                 <svg
