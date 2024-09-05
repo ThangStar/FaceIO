@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }: any) => {
     const [isLogined, setIsLogined] = useState(false)
     const pathname = usePathname()
     const relogin = () => {
+
         if (typeof idToken != "string") return
         const credential = GoogleAuthProvider.credential(idToken)
         signInWithCredential(auth, credential)
@@ -41,7 +42,13 @@ export const AuthProvider = ({ children }: any) => {
             });
     }
     const checkIsLogined = () => {
-        idToken ? relogin() : (pathname !== '/' && router.replace('/'));
+
+        if (idToken) {
+            relogin()
+        } else {
+            pathname !== '/' && router.replace('/')
+            setMounted(true)
+        };
     }
     useEffect(() => {
         !auth.currentUser ? checkIsLogined() : setMounted(true)
