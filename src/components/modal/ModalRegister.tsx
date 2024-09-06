@@ -30,7 +30,7 @@ function ModalRegister() {
       data as loginDto
     ))
     const isLoginFailed = res?.meta?.rejectedWithValue
-    !isLoginFailed && router.replace('/home', { scroll: false })
+    !isLoginFailed && (window.location.href = `/FaceIO/home`)
   }
   const {
     register, handleSubmit: handleResgisterSubmit,
@@ -45,6 +45,7 @@ function ModalRegister() {
   } = useForm({
     resolver: yupResolver(loginRule)
   });
+
   function loginGoogleFirebase(event: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>): void {
     const auth = getAuth();
     signInWithPopup(auth, firebaseLogin.google())
@@ -54,7 +55,7 @@ function ModalRegister() {
         localStorage.setItem("idToken", JSON.stringify(credential.idToken));
         const user = result.user;
         dispatch(authActions.setProfileToDb())
-        window.location.replace('/home')
+        window.location.href = `/FaceIO/home`
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;

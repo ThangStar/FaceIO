@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: any) => {
                 console.log('relogin success!');
                 toast(`Chào ${value.user.displayName}!`);
                 setIsLogined(true);
-                pathname == '/' && (router.push('/home', { scroll: false }))
+                pathname == '/' && (window.location.href = `/FaceIO/home`)
             })
             .catch((error) => {
                 // Handle Errors here.
