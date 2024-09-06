@@ -146,9 +146,7 @@ function ChatBubbleItem({ index, userId }: Props) {
             </button>
 
             <div className=" h-full py-3 mb-1 overflow-y-auto scroll-smooth flex flex-col-reverse mx-4 " ref={refScrollChat}>
-
                 <AnimatePresence mode='sync'>
-
                     {messages.map((message, index) => {
                         const isMe = message.user_send === auth.currentUser?.uid
                         return (

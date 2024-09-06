@@ -6,8 +6,8 @@ import 'moment/locale/vi';
 import clsx from 'clsx'
 import { message } from '@/types/message';
 import { user } from '@/types/user';
-import { useDispatch } from 'react-redux';
-import { dataProviderActions } from '@/redux/slice/dataProviderSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { DataProvider, dataProviderActions } from '@/redux/slice/dataProviderSlice';
 import useSound from 'use-sound';
 
 function ObserveMessageProvider({ children }: any) {
@@ -15,6 +15,12 @@ function ObserveMessageProvider({ children }: any) {
     const { setMessages } = dataProviderActions
     const [isLoading, setIsLoading] = useState(true)
     const [play] = useSound('/audio/notification.mp3');
+    const [isObserve, setIsObserve] = useState(false)
+    const [isNewMessage, setIsNewMessage] = useState(false)
+    const [clicked, setClicked] = useState(false)
+    const [msgCounter, setMsgCounter] = useState(0)
+    const [sfxCounter, setSfxCounter] = useState(0)
+
     useEffect(() => {
         const fetchData = async () => {
             console.log('getting message...');
@@ -26,6 +32,7 @@ function ObserveMessageProvider({ children }: any) {
                 limit(100), orderBy('createdAt', 'desc'),
             ), async (doc) => {
                 console.log('detected new message...');
+                setMsgCounter(prev => ++prev)
                 const users: string[] = []
                 let msgs: message[] = []
                 doc.docs.forEach((item) => {
@@ -50,6 +57,7 @@ function ObserveMessageProvider({ children }: any) {
                 setIsLoading(false)
             }, () => {
                 console.log('getted message completed...');
+                setIsObserve(true)
                 setIsLoading(false)
             });
         }
@@ -59,18 +67,22 @@ function ObserveMessageProvider({ children }: any) {
             const snapshot = await getDocs(q);
             return snapshot.empty ? [] : snapshot.docs.map(doc => doc.data() as user)
         }
-        auth.currentUser && fetchData()
+        (auth.currentUser && !isObserve) && fetchData()
         return () => {
-            console.log('clean up...');
         }
     }, [])
 
-    function handlePlaySfx(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-        play()
-    }
+    const dataProvider: DataProvider = useSelector((state: any) => state.dataProvider.value)
 
+    function handlePlaySfx(event: any): void {
+        setClicked(true)
+        clicked || setInterval(() => {
+            console.log('running..', isNewMessage, clicked);
+            dataProvider.messages && play()
+        }, 1000);
+    }
     return (
-        <div>
+        <div className='mt-24' onClick={handlePlaySfx} >
             {children}
         </div>
     )

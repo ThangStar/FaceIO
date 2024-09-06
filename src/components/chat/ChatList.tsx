@@ -12,20 +12,20 @@ import { user } from '@/types/user'
 import clsx from 'clsx'
 
 type Props = HTMLAttributes<HTMLDivElement> & {
-
+    refChat?: React.MutableRefObject<HTMLDivElement | null>
 }
 
-function ChatList({ className }: Props) {
+function ChatList({ className, refChat }: Props) {
     const { addNewChat, removeChat } = dataProviderActions
     const dispatch = useDispatch()
     const messages: message[] = useSelector((state: any) => state.dataProvider.value.messages)
-    
+
     const handleNewChat = (idUser: string) => {
         dispatch(addNewChat({ idUser }))
     }
 
     return (
-        <div className={`${className}`}>
+        <div ref={refChat} className={`${className}`}>
             <ul className="list">
                 {messages.map((message) => (
                     <motion.li

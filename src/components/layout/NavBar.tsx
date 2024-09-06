@@ -15,6 +15,7 @@ import Modal from '../modal/Modal';
 import ModalRegister from '../modal/ModalRegister';
 import { useSelector } from 'react-redux';
 import { message } from '@/types/message';
+import NotiList from '../notification/NotiList';
 
 function NavBar() {
     const pathname = usePathname()
@@ -39,8 +40,33 @@ function NavBarHome() {
         })
     }
     const [toggleSetting, setToggleSetting] = useState(false)
+    const [toggleNoti, setToggleNoti] = useState(false)
+
+    const onVisibleToggleNoti = () => {
+        setToggleNoti(prev => !prev)
+    }
     const messages: message[] = useSelector((state: any) => state.dataProvider.value.messages)
-    const lengthMessage = useRef(messages.filter(m => m.seenUserId != auth.currentUser?.uid).length.toString() || '')
+    const lengthMessage = useRef(messages.filter(m => m.seenUserId != auth.currentUser?.uid).length || 0)
+
+    const refChatList = useRef<HTMLDivElement | null>(null)
+    const refBtnChat = useRef<HTMLDivElement | null>(null)
+
+    const refNotiIcon = useRef<HTMLDivElement | null>(null)
+    const refNotiList = useRef<HTMLDivElement | null>(null)
+    useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            if (refChatList.current && !refChatList.current.contains(event.target) && !refBtnChat.current?.contains(event.target)) {
+                setVisibleChatList(false);
+            }
+            if(refNotiList.current && !refNotiList.current.contains(event.target) && !refNotiIcon.current?.contains(event.target)){
+                setToggleNoti(false)
+            }
+        };
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, [refChatList]);
 
     return (
         <nav className="navbar top-0 shadow-lg bg-neutral text-neutral-content h-[64px] fixed z-30">
@@ -54,27 +80,30 @@ function NavBarHome() {
 
                 <div className='flex w-full justify-end'>
                     <div className='flex'>
-                        <IconButton className=' md:flex relative' onClick={handleVisibleChatList}>
+                        <IconButton className=' md:flex relative' refButton={refBtnChat} onClick={handleVisibleChatList}>
                             <div className='inline-block indicator'>
-                                <span className={`indicator-item badge bg-error p-1 badge-secondary ${clsx([
-                                    lengthMessage.current ? '!visible' : 'hidden',
+                                <span className={`indicator-item badge bg-error text-base-content p-1 badge-secondary ${clsx([
+                                    lengthMessage.current != 0 ? '!visible' : 'hidden',
                                 ])}`}>{lengthMessage.current}</span>
                                 <ChatSvg className="fill-primary" />
                                 {
                                     visibleChatList &&
                                     (
-                                        <ChatList className='absolute top-14 -left-20 sm:left-0 bg-base-200 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
+                                        <ChatList refChat={refChatList} className='absolute top-14 -left-40 md:left-auto w-fit ms-12 sm:ms-0 md:w-auto bg-base-200 right-0 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
                                     )
                                 }
                             </div>
                         </IconButton>
 
-                        <IconButton className=' md:flex' >
+                        <IconButton refButton={refNotiIcon} onClick={onVisibleToggleNoti} className=' md:flex' >
                             <div className='inline-block indicator '>
-                                <span className={`indicator-item badge bg-error p-1 badge-secondary ${clsx([
+                                <span className={`indicator-item badge bg-error p-1 text-base-content badge-secondary ${clsx([
                                     lengthMessage.current ? '!visible' : 'hidden',
                                 ])}`}>12</span>
                                 <NotifiSvg className="fill-primary" />
+                                {toggleNoti &&
+                                    <NotiList refNoti={refNotiList} className='absolute top-14 -left-56 md:left-auto w-fit min-h-96 px-18 md:px-12 ms-12 sm:ms-0 md:w-auto bg-base-200 right-0 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
+                                }
                             </div>
                         </IconButton>
 

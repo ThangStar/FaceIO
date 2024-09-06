@@ -34,7 +34,7 @@ const action = {
         async (loginDto: loginDto, thunkAPI) => {
             try {
                 const data = await authApi.login(loginDto)
-                return data
+                return data.user.getIdToken()
             } catch (error: any) {
                 const errorCode = error.code;
                 if (errorCode == 'auth/invalid-credential') {

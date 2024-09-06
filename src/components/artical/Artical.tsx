@@ -97,8 +97,8 @@ function Artical({ post }: Props) {
                                         href={idModalArtical}
                                         onClick={() => showModalImage(urlTransform)}>
                                         <Image
-                                            width={200}
-                                            height={200}
+                                            width={500}
+                                            height={500}
                                             src={urlTransform} alt="Post image"
                                             className="w-52 h-52 cursor-pointer object-cover" />
                                     </a>
@@ -109,7 +109,7 @@ function Artical({ post }: Props) {
                         <div className="p-2 space-y-2 md:p-4">
                             <div className="flex items-center justify-between mt-2">
                                 <div className='flex gap-4'>
-                                    <button onClick={onChangeLiked} className={`btn rounded-md hover:text-base-content btn-outline hover:bg-error ${clsx(
+                                    <button onClick={onChangeLiked} className={`btn min-h-3 py-1 h-auto rounded-md hover:text-base-content btn-outline hover:bg-error ${clsx(
                                         {
                                             'bg-error': liked
                                         }
@@ -117,7 +117,7 @@ function Artical({ post }: Props) {
                                         <span className="font-bold text-lg">{post.likes?.length || 0}</span>
                                         <FaceHeart className="fill-base-content" />
                                     </button>
-                                    <button onClick={() => setToggleComment(prev => !prev)} className={`flex gap-x-3 items-center justify-between px-2 py-0 rounded-md btn btn-outline hover:bg-secondary hover:text-base-content ${clsx({
+                                    <button onClick={() => setToggleComment(prev => !prev)} className={`flex min-h-3 py-1 h-auto gap-x-3 items-center justify-between px-2 rounded-md btn btn-outline hover:bg-secondary hover:text-base-content ${clsx({
                                         'bg-secondary': toggleComment
                                     })}`}>
                                         <span className="font-bold text-lg">22</span>
