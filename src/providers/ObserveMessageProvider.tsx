@@ -17,10 +17,7 @@ function ObserveMessageProvider({ children }: any) {
     const [play] = useSound('/audio/notification.mp3');
     const [isObserve, setIsObserve] = useState(false)
     const [isNewMessage, setIsNewMessage] = useState(false)
-    const [clicked, setClicked] = useState(false)
-    const [msgCounter, setMsgCounter] = useState(0)
-    const [sfxCounter, setSfxCounter] = useState(0)
-
+    const cle = useRef(false)
     useEffect(() => {
         const fetchData = async () => {
             console.log('getting message...');
@@ -32,7 +29,7 @@ function ObserveMessageProvider({ children }: any) {
                 limit(100), orderBy('createdAt', 'desc'),
             ), async (doc) => {
                 console.log('detected new message...');
-                setMsgCounter(prev => ++prev)
+                cle.current = true
                 const users: string[] = []
                 let msgs: message[] = []
                 doc.docs.forEach((item) => {
@@ -75,10 +72,12 @@ function ObserveMessageProvider({ children }: any) {
     const dataProvider: DataProvider = useSelector((state: any) => state.dataProvider.value)
 
     function handlePlaySfx(event: any): void {
-        setClicked(true)
-        clicked || setInterval(() => {
-            console.log('running..', isNewMessage, clicked);
-            dataProvider.messages && play()
+        let a = true
+        setInterval(() => {
+            if (cle.current) {
+                play()
+                cle.current = false
+            }
         }, 1000);
     }
     return (

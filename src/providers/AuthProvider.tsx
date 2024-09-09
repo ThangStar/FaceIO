@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: any) => {
                 console.log('relogin success!');
                 toast(`Chào ${value.user.displayName}!`);
                 setIsLogined(true);
-                pathname == '/' && (window.location.href = `/home`)
+                pathname == '/' && (window.location.href = `${redirectConfig()}/home`)
             })
             .catch((error) => {
                 // Handle Errors here.
