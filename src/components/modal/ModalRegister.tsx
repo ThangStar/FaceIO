@@ -30,7 +30,7 @@ function ModalRegister() {
       data as loginDto
     ))
     const isLoginFailed = res?.meta?.rejectedWithValue
-    !isLoginFailed && (window.location.href = `/FaceIO/home`)
+    !isLoginFailed && (window.location.href = `/home`)
   }
   const {
     register, handleSubmit: handleResgisterSubmit,
@@ -55,7 +55,7 @@ function ModalRegister() {
         localStorage.setItem("idToken", JSON.stringify(credential.idToken));
         const user = result.user;
         dispatch(authActions.setProfileToDb())
-        window.location.href = `/FaceIO/home`
+        window.location.href = `/home`
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
