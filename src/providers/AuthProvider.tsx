@@ -1,5 +1,6 @@
 import firebaseConfig, { auth } from '@/firebase/setup';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { redirectConfig } from '@/utils/utils';
 import { error } from 'console';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { Auth, AuthCredential, getAdditionalUserInfo, getAuth, GoogleAuthProvider, signInWithCredential, UserCredential } from 'firebase/auth';

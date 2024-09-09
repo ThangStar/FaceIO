@@ -16,6 +16,7 @@ import Modal from './Modal'
 import { getAdditionalUserInfo, getAuth, GoogleAuthProvider, linkWithCredential, OAuthCredential, signInWithCredential, signInWithPopup } from 'firebase/auth'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { firebaseLogin } from '@/firebase/setup'
+import { redirectConfig } from '@/utils/utils'
 
 function ModalRegister() {
   const [tabActive, setTabActive] = useState(1)
@@ -30,7 +31,7 @@ function ModalRegister() {
       data as loginDto
     ))
     const isLoginFailed = res?.meta?.rejectedWithValue
-    !isLoginFailed && (window.location.href = `/home`)
+    !isLoginFailed && (window.location.href = `${redirectConfig()}/home`)
   }
   const {
     register, handleSubmit: handleResgisterSubmit,
@@ -55,7 +56,7 @@ function ModalRegister() {
         localStorage.setItem("idToken", JSON.stringify(credential.idToken));
         const user = result.user;
         dispatch(authActions.setProfileToDb())
-        window.location.href = `/home`
+        window.location.href = `${redirectConfig()}/home`
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
