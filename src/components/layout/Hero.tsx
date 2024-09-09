@@ -20,7 +20,7 @@ function Hero() {
                     <h1 className="text-3xl font-bold leading-10 md:font-extrabold lg:text-[2.6rem] lg:leading-[3.5rem]">
                         Mạng xã hội {" "}
                         <span className='wrapper'>
-                            <span className="text-primary gradient-text text-transparent relative glitch" data-glitch="Ẩn danh">Ẩn danh
+                            <span className="text-primary gradient-text text-transparent relative glitch" data-glitch="GENZ">GENZ
                                 <div className='absolute bottom-0 w-full h-1 bg-red-50 right-0 bg-gradient-to-r from-purple-500 to-violet-600'></div>
                             </span>,
                         </span>

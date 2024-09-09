@@ -4,7 +4,7 @@ export const saveToStorage = (key: string, value: any) => {
 };
 export const getInStorage = (key: string) => {
     const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : "No data found!";
+    return data ? JSON.parse(data) : '';
 }
 
 export const redirectConfig = () => {

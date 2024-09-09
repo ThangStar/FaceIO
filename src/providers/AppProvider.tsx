@@ -17,28 +17,31 @@ import { ToastContainer } from 'react-toastify'
 import { GoogleAuthProvider } from 'firebase/auth'
 import { AuthProvider } from './AuthProvider'
 import ObserveMessageProvider from './ObserveMessageProvider'
+import LogoLoader from '@/components/layout/LogoLoader'
 function AppProvider({ children }: any) {
     return (
         <Provider store={store}>
             <ThemeProvider>
                 <PreLoaderProvider />
                 <ContainerViewProvider>
-                    <AuthProvider>
-                        <ObserveMessageProvider>
-                            <ToastContainer />
-                            <NavBar />
-                            {/* <Debuger /> */}
-                            <ChatBubble />
-                            <Breadcrumbs />
-                            <BodyViewProvider>
-                                {children}
-                            </BodyViewProvider>
-                            <Footer />
-                        </ObserveMessageProvider>
-                    </AuthProvider>
+                    <LogoLoader>
+                        <AuthProvider>
+                            <ObserveMessageProvider>
+                                <ToastContainer />
+                                <NavBar />
+                                {/* <Debuger /> */}
+                                <ChatBubble />
+                                <Breadcrumbs />
+                                <BodyViewProvider>
+                                    {children}
+                                </BodyViewProvider>
+                                <Footer />
+                            </ObserveMessageProvider>
+                        </AuthProvider>
+                    </LogoLoader>
                 </ContainerViewProvider>
             </ThemeProvider>
-        </Provider>
+        </Provider >
     )
 }
 

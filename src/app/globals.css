@@ -283,3 +283,12 @@ body {
   background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
 }
 :focus { outline: none; }
+
+.item-icon {
+  width: 100%;
+  overflow: visible;
+  stroke: #fff;
+  stroke-width: 0.1;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
