@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { message } from '@/types/message';
 import NotiList from '../notification/NotiList';
 import { redirectConfig } from '@/utils/utils';
+import BrowserMockup from '../mockup/BrowserMockup';
 
 function NavBar() {
     const pathname = usePathname()
@@ -70,8 +71,17 @@ function NavBarHome() {
         };
     }, [refChatList, refChatList]);
 
+    const imgUris = useRef([
+        '/images/bg_01.jpg',
+        '/images/bg_02.jpg',
+        '/images/bg_03.jpg',
+        '/images/bg_04.jpg',
+        '/images/bg_05.jpg',
+        '/images/bg_06.jpg',
+    ])
+
     return (
-        <nav className="navbar top-0 shadow-lg bg-neutral text-neutral-content h-[64px] fixed z-30">
+        <nav className="navbar top-0 shadow-lg bg-neutral text-neutral-content h-[64px] fixed z-[20]">
             <div className="w-full flex justify-between">
                 <div className="px-2 mx-2 w-full">
                     <a href='/' className="btn bg-transparent border-none text-lg font-bold"><LogoSvg className="fill-primary size-8" /></a>
@@ -123,11 +133,27 @@ function NavBarHome() {
                             </div>
                             <div className="drawer-side">
                                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-                                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                                <ul className="menu bg-base-200 text-base-content p-0 min-h-full w-1/2 md:p-4">
                                     {/* Sidebar content here */}
-                                    <li>
-                                        <a>Sidebar Item 1</a></li>
-                                    <li><a>Sidebar Item 2</a></li>
+                                    <h3 className='text-left text-2xl hover:bg-none mx-4 pb-12 pt-3'>Cài đặt</h3>
+                                    <div className='text-xl tracking-wider space-y-3'>
+                                        <li>
+                                            <div tabIndex={0} className="collapse border-base-300 bg-base-200 border">
+                                                <div className="collapse-title text-xl font-medium">Ảnh nền</div>
+                                                <div className='grid collapse-content grid-flow-row-dense md:grid-cols-3 px-3 gap-4'>
+                                                    {imgUris.current.map((uri, index) => <BrowserMockup key={index} imgUri={uri} />)}
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div tabIndex={0} className="collapse border-base-300 bg-base-200 border">
+                                                <div className="collapse-title text-xl font-medium">Khác</div>
+                                                <div className="collapse-content">
+                                                    <p>tabindex={0} attribute is necessary to make the div focusable</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
                                 </ul>
                             </div>
                         </div>
@@ -152,8 +178,8 @@ function NavBarHome() {
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </div >
+        </nav >
     )
 }
 

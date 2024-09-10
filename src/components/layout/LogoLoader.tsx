@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
 import { getInStorage } from '@/utils/utils';
+import { usePathname } from 'next/navigation';
 const icon = {
     hidden: {
         opacity: 0,
@@ -14,10 +15,10 @@ const icon = {
     }
 };
 function LogoLoader({ children }: any) {
-    const [activeLogo, setActiveLogo] = useState(true)
+    const [activeLogo, setActiveLogo] = useState(false)
+    const pathname = usePathname()
     React.useEffect(() => {
-        const idToken = getInStorage('idToken')
-        idToken && setActiveLogo(false)
+        pathname == '/' && setActiveLogo(true)
     }, [])
     return (
         <>

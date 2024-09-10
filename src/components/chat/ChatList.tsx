@@ -27,6 +27,7 @@ function ChatList({ className, setVisibleChatList, refChat }: Props) {
     }
 
     const [tabChatSelected, setTabChatSelected] = useState(1)
+    const [isLoadingNoti, setIsLoadingNoti] = useState(false)
 
     return (
         <div className={`${className}`}>
@@ -40,21 +41,28 @@ function ChatList({ className, setVisibleChatList, refChat }: Props) {
 
                 </div>
             </div>
-            <ul className="list" >
-                {messages.map((message) => (
-                    <motion.li
-                        layoutId={`chat-${message.id}`}
-                        className="relative flex text-base-content items-center gap-4 p-4 border-b border-base-100 cursor-pointer"
-                        key={message.id}
-                        whileHover={{ scale: 1.02 }}
-                        onClick={() => handleNewChat(message.user_receive)}
-                    >
-                        <Avatar sizeAvatar={8} user={message.user} subtitleStyle={clsx({
-                            'opacity-65 font-normal': message.seenUserId?.includes(auth.currentUser?.uid || '')
-                        })} subtitle={message.message} time={moment(message.createdAt).locale('vi').fromNow()} />
-                    </motion.li>
-                ))}
-            </ul>
+            {tabChatSelected == 1 &&
+                <ul className="list" >
+                    {messages.map((message) => (
+                        <motion.li
+                            layoutId={`chat-${message.id}`}
+                            className="relative flex text-base-content items-center gap-4 p-4 border-b border-base-100 cursor-pointer"
+                            key={message.id}
+                            whileHover={{ scale: 1.02 }}
+                            onClick={() => handleNewChat(message.user_receive)}
+                        >
+                            <Avatar sizeAvatar={8} user={message.user} subtitleStyle={clsx({
+                                'opacity-65 font-normal': message.seenUserId?.includes(auth.currentUser?.uid || '')
+                            })} subtitle={message.message} time={moment(message.createdAt).locale('vi').fromNow()} />
+                        </motion.li>
+                    ))}
+                </ul>
+            }
+            {tabChatSelected == 2 && <div className="flex w-full p-3 flex-col opacity-45  gap-4">
+                <div className="skeleton bg-base-content h-4 w-28"></div>
+                <div className="skeleton bg-base-content h-4 w-full"></div>
+                <div className="skeleton bg-base-content h-4 w-full"></div>
+            </div>}
         </div>
     )
 }

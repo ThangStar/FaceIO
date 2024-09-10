@@ -10,8 +10,8 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 }
 function Modal({ children, className, id = '' }: Props) {
     return (
-        <div id={`${id.replace(/^#/, '')}`} className="modal rounded h-full bg-transparent ">
-            <div className={`modal-box w-11/12 max-w-5xl bg-transparent p-0 m-0 relative  ${className}`}>
+        <div id={`${id.replace(/^#/, '')}`} className="modal rounded h-full bg-transparent">
+            <div className={`modal-box w-11/12 max-w-5xl bg-transparent p-0 m-0 relative ${className}`}>
                 {children}
                 <div className="modal-action p-0 m-0">
                     <form method="dialog">

@@ -18,28 +18,31 @@ import { GoogleAuthProvider } from 'firebase/auth'
 import { AuthProvider } from './AuthProvider'
 import ObserveMessageProvider from './ObserveMessageProvider'
 import LogoLoader from '@/components/layout/LogoLoader'
+import BackgroundHomeContext from '@/context/BackgroundHomeContext'
 function AppProvider({ children }: any) {
     return (
         <Provider store={store}>
             <ThemeProvider>
                 <PreLoaderProvider />
-                <ContainerViewProvider>
-                    <LogoLoader>
-                        <AuthProvider>
+                <LogoLoader>
+                    <AuthProvider>
+                        <ContainerViewProvider>
                             <ObserveMessageProvider>
-                                <ToastContainer />
-                                <NavBar />
-                                {/* <Debuger /> */}
-                                <ChatBubble />
-                                <Breadcrumbs />
-                                <BodyViewProvider>
-                                    {children}
-                                </BodyViewProvider>
-                                <Footer />
+                                <BackgroundHomeContext>
+                                    <ToastContainer position='top-center' />
+                                    <NavBar />
+                                    {/* <Debuger /> */}
+                                    <ChatBubble />
+                                    <Breadcrumbs />
+                                    <BodyViewProvider>
+                                        {children}
+                                    </BodyViewProvider>
+                                    <Footer />
+                                </BackgroundHomeContext>
                             </ObserveMessageProvider>
-                        </AuthProvider>
-                    </LogoLoader>
-                </ContainerViewProvider>
+                        </ContainerViewProvider>
+                    </AuthProvider>
+                </LogoLoader>
             </ThemeProvider>
         </Provider >
     )

@@ -137,12 +137,12 @@ function ChatBubbleItem({ index, userId }: Props) {
             exit={{ opacity: 0, translateY: 200 }}
             transition={{ type: "spring" }}
             animate={{ opacity: 1, translateX: (rightPos.current - (index * widthContainer)) }}
-            className="card rounded-md z-20 glass sm:w-1/3 xl:w-1/4 h-4/5 md:h-3/5 fixed translate-x-6 opacity-0 bottom-3 right-14 pt-3 pb-3">
-            <div className='card-title px-4 border-base-100  shadow-md pb-2 '>
+            className="card rounded-md z-20 backdrop-blur-xl shadow-2xl border border-base-content border-opacity-5 bg-base-100 bg-opacity-15 sm:w-1/3 xl:w-1/4 h-4/5 md:h-3/5 fixed translate-x-6 opacity-0 bottom-3 right-14 pt-3 pb-3">
+            <div className='card-title px-4 border-base-100 shadow-md pb-2 '>
                 <Avatar sizeAvatar={8} nameClass='text-lg' user={user} />
             </div>
             <button onClick={() => handleCloseBubble(userId)} className='absolute right-0 top-0 btn-circle btn bg-transparent border-none shadow-none'>
-                <CloseSvg className='' />
+                <CloseSvg className='fill-base-content' />
             </button>
 
             <div className=" h-full py-3 mb-1 overflow-y-auto scroll-smooth flex flex-col-reverse mx-4 " ref={refScrollChat}>

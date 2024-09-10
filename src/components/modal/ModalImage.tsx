@@ -19,9 +19,9 @@ function ModalImage({ url }: Props) {
 
     return (
         <div className='h-screen glass relative'>
-            <Image placeholder="empty" onLoadingComplete={onLoadingComplete} fill alt='' sizes='1' className='w-full h-full object-contain rounded-md ' src={url || 'https://picsum.photos/200'} />
+            <Image placeholder="empty" onLoadingComplete={onLoadingComplete} fill alt='' sizes='1' className='w-full h-full object-contain rounded-md' src={url || 'https://picsum.photos/200'} />
             {isLoading &&
-                <div className="skeleton h-screen absolute inset-0"></div>
+                <div className="skeleton h-screen absolute z-40 inset-0"></div>
             }
         </div>
     )

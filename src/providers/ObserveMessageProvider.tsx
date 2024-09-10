@@ -73,7 +73,7 @@ function ObserveMessageProvider({ children }: any) {
 
     function handlePlaySfx(event: any): void {
         let a = true
-        setInterval(() => {
+        const inv = setInterval(() => {
             if (cle.current) {
                 play()
                 cle.current = false
