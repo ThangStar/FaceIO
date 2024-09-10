@@ -18,6 +18,7 @@ const nextConfig = {
       },
     ],
   },
+  basePath: process.env.NODE_ENV == "PRODUCTION" ? '/FaceIO' : null,
 };
 
 export default nextConfig;
