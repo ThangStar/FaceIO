@@ -1,4 +1,6 @@
 "use client"
+import LogoProgress from '@/components/layout/LogoProgress'
+import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
 
 export const ThemeContext = React.createContext({
@@ -18,9 +20,11 @@ function ThemeProvider({ children }: any) {
         setTheme(t)
         localStorage.setItem('theme', t)
     }
+    const pathname = usePathname()
     if (!isMounted) {
+        if(pathname == "/") return <></>
         return (
-            <span className="loading loading-infinity loading-lg"></span>
+            <LogoProgress label='Đang tải giao diện..'/>
         )
     }
     return (

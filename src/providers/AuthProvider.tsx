@@ -1,3 +1,4 @@
+import LogoProgress from '@/components/layout/LogoProgress';
 import firebaseConfig, { auth } from '@/firebase/setup';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { redirectConfig } from '@/utils/utils';
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }: any) => {
     }, [])
     return (
         <>
-            {mounted ? (<>{children}</>) : (<span className="loading loading-spinner loading-lg"></span>)}
+            {mounted ? (<>{children}</>) : pathname == "/" ? <></> : (<LogoProgress label='Đang xác thực thông tin..' />)}
         </>
     )
 }
