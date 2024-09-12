@@ -40,14 +40,16 @@ function ObserveMessageProvider({ children }: any) {
                         msgs.push({ ...m, id: item.id })
                     }
                 })
-                const usrs = await fetchUser(users)
-                const newMsgs = msgs.map((msg) => {
-                    return { ...msg, user: usrs.find(user => user.uid === (msg.user_send == auth.currentUser?.uid ? msg.user_receive : msg.user_send)) }
-                })
+                if (users) {
+                    const usrs = await fetchUser(users)
+                    const newMsgs = msgs.map((msg) => {
+                        return { ...msg, user: usrs.find(user => user.uid === (msg.user_send == auth.currentUser?.uid ? msg.user_receive : msg.user_send)) }
+                    })
+                    dispatch(setMessages({
+                        messages: newMsgs
+                    }))
+                }
                 // dispatch newMsgs here
-                dispatch(setMessages({
-                    messages: newMsgs
-                }))
 
             }, (error) => {
                 console.log("error", error);

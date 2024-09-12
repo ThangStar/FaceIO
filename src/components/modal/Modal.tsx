@@ -3,14 +3,14 @@ import CloseSvg from '/public/svg/close.svg'
 import IconButton from '../button/IconButton'
 import { AnimatePresence, motion } from "framer-motion"
 import ModalRegister from './ModalRegister'
-
+import ReactDOM from 'react-dom'
 type Props = HTMLAttributes<HTMLDivElement> & {
     children: any,
     id?: string
 }
 function Modal({ children, className, id = '' }: Props) {
-    return (
-        <div id={`${id.replace(/^#/, '')}`} className="modal rounded h-full bg-transparent">
+    return ReactDOM.createPortal(
+        <div id={`${id.replace(/^#/, '')}`} className="modal rounded h-full bg-transparent fixed inset-0 z-50">
             <div className={`modal-box w-11/12 max-w-5xl bg-transparent p-0 m-0 relative ${className}`}>
                 {children}
                 <div className="modal-action p-0 m-0">
@@ -23,7 +23,8 @@ function Modal({ children, className, id = '' }: Props) {
                     </form>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     )
 }
 

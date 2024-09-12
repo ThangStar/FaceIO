@@ -11,6 +11,9 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 function NotiList({ refNoti, className, notifications }: Props) {
     return (
         <div ref={refNoti} className={`${className}`}>
+             <div className='bg-base-100 shadow-base-300 px-4 border-b border-base-100 shadow-2xl'>
+                <h3 className='text-left text-2xl py-3 text-base-content'>Thông báo</h3>
+            </div>
             <ul className="list">
                 {notifications?.map((message) => (
                     <motion.li

@@ -4,7 +4,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { redirectConfig } from '@/utils/utils';
 import { error } from 'console';
 import { FirebaseApp, initializeApp } from 'firebase/app';
-import { Auth, AuthCredential, getAdditionalUserInfo, getAuth, GoogleAuthProvider, signInWithCredential, UserCredential } from 'firebase/auth';
+import { Auth, AuthCredential, EmailAuthProvider, getAdditionalUserInfo, getAuth, getIdToken, getRedirectResult, GoogleAuthProvider, reauthenticateWithCredential, signInWithCredential, signInWithCustomToken, UserCredential } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
@@ -17,34 +17,58 @@ export const AuthProvider = ({ children }: any) => {
     const router = useRouter()
     const [isLogined, setIsLogined] = useState(false)
     const pathname = usePathname()
-    const relogin = () => {
+    const relogin = async () => {
         if (typeof idToken != "string") return
-        const credential = GoogleAuthProvider.credential(idToken)
-        signInWithCredential(auth, credential)
-            .then((value: UserCredential) => {
-                console.log('relogin success!');
-                toast(`Chào ${value.user.displayName}!`);
-                setIsLogined(true);
-                pathname == '/' && (window.location.href = `${redirectConfig()}/home`)
-            })
-            .catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.email;
-                // The credential that was used.
-                setIsLogined(true);
-                pathname !== '/' && router.replace('/');
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                console.log('relogin failed!', error);
-            }).finally(() => {
-                setMounted(true)
-            });
+        // signInWithCustomToken(auth, idToken)
+        //     .then((value: UserCredential) => {
+        //         console.log('relogin success!');
+        //         toast(`Chào ${value.user.displayName}!`);
+        //         setIsLogined(true);
+        //         pathname == '/' && (window.location.href = `${redirectConfig()}/home`)
+        //     })
+        //     .catch((error) => {
+        //         // Handle Errors here.
+        //         const errorCode = error.code;
+        //         const errorMessage = error.message;
+        //         // The email of the user's account used.
+        //         const email = error.email;
+        //         // The credential that was used.
+        //         setIsLogined(true);
+        //         pathname !== '/' && router.replace('/');
+        //         const credential = GoogleAuthProvider.credentialFromError(error);
+        //         console.log('relogin failed!', error);
+        //     }).finally(() => {
+        //         setMounted(true)
+        //     });
+
+        getRedirectResult(auth).then((result) => {
+            if (result) {
+                const credential = GoogleAuthProvider.credentialFromResult(result)
+                if (credential) {
+                    const token = credential.accessToken;
+                    console.log('relogin success!');
+                    toast(`Chào ${result.user.displayName}!`);
+                    setIsLogined(true);
+                    pathname == '/' && (window.location.href = `${redirectConfig()}/home`)
+                }
+            }
+        }, (error) => {
+            console.log('relogin failed!', error);
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The credential that was used.
+            setIsLogined(true);
+            pathname !== '/' && router.replace('/');
+            const credential = GoogleAuthProvider.credentialFromError(error);
+        }).finally(() => {
+            setMounted(true)
+        })
     }
     const checkIsLogined = () => {
-
         if (idToken) {
+            pathname == '/' && router.replace('/home')
             relogin()
         } else {
             pathname !== '/' && router.replace('/')
@@ -52,7 +76,7 @@ export const AuthProvider = ({ children }: any) => {
         };
     }
     useEffect(() => {
-        !auth.currentUser ? checkIsLogined() : setMounted(true)
+        checkIsLogined()
         return () => {
         }
     }, [])

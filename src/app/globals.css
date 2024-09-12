@@ -292,3 +292,8 @@ body {
   stroke-linejoin: round;
   stroke-linecap: round;
 }
+
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

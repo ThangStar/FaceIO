@@ -3,7 +3,7 @@ import Artical from '@/components/artical/Artical'
 import Avatar from '@/components/avatar/Avatar'
 import IconButton from '@/components/button/IconButton'
 import useReconnect from '@/hooks/useReconnect'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SmileSvg from '/public/svg/smile.svg'
 import ImageSvg from '/public/svg/image.svg'
 import Image from 'next/image'
@@ -17,7 +17,8 @@ import { collection, doc, getDoc, getDocs, limit, onSnapshot, orderBy, query, wh
 import { auth, db } from '@/firebase/setup'
 import { post } from '@/types/post'
 import { user } from '@/types/user'
-
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 const Page = () => {
   const [files, setFiles] = useState<File[]>()
   const [content, setContent] = useState('')
@@ -66,6 +67,11 @@ const Page = () => {
     })
     setPosts(posts)
   }
+  const [toggleEmoji, setToggleEmoji] = useState(false)
+  const refEmoij = useRef<HTMLDivElement>(null)
+  const handleToggleEmoji = (e: React.MouseEvent<HTMLDivElement>) => {
+    setToggleEmoji(!toggleEmoji)
+  }
   useEffect(() => {
     onSnapshot(query(
       collection(db, "posts"),
@@ -79,12 +85,16 @@ const Page = () => {
       })
       mergePostsAndUsers(uids, posts)
     });
+
+    // emoij fetch
+
     return () => {
     }
   }, [])
 
   return (
     <div className='items-center gap-y-6 w-full'>
+
       <div className='mx-auto w-fit max-w-full px-2 md:px-6 lg:phone-6'>
         <div className='mb-6 bg-base-100 p-6 rounded shadow-md'>
           <h4 className='mb-6 font-bold'>
@@ -124,15 +134,22 @@ const Page = () => {
                     <ImageSvg className="fill-primary" />
                     <input onChange={onChangeImage} onClick={(e) => e.currentTarget.value = ''} type="file" accept="image/*" multiple className='absolute inset-0 z-10 opacity-0 cursor-pointer top-0 bottom-0 right-0 w-full h-full' />
                   </button>
-                  <div className='flex w-fit gap-x-2'>
-                    <IconButton className='bg-[#00000010]'><SmileSvg className="fill-secondary" /></IconButton>
+                  <div className='flex w-fit gap-x-2 relative'>
+                    <IconButton className='bg-[#00000010] ' onClick={handleToggleEmoji}>
+
+                      <SmileSvg className="fill-secondary" /></IconButton>
                     {/* <select value={''} className="select select-ghost w-full max-w-xs">
                       <option disabled selected>Cảm xúc / Hoạt động</option>
                       <option>Svelte</option>
                       <option>Vue</option>
                       <option>React</option>
                     </select> */}
+                    {toggleEmoji && <div className='w-full absolute right-0 z-20 top-14'>
+                      <Picker data={data} onEmojiSelect={(props: any) => console.log(setContent(prev => prev += props.native))} />
+                    </div>
+                    }
                   </div>
+
                 </div>
                 <button className="btn btn-outline btn-primary" type='submit'>Đăng</button>
               </div>
@@ -149,7 +166,7 @@ const Page = () => {
             )
           })
         }
-      </div>
+      </div >
     </div >
   )
 }

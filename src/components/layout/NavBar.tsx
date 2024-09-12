@@ -50,6 +50,8 @@ function NavBarHome() {
     }
     const messages: message[] = useSelector((state: any) => state.dataProvider.value.messages)
     const lengthMessage = useRef(messages.filter(m => m.seenUserId != auth.currentUser?.uid).length || 0)
+    console.log(lengthMessage);
+    
 
     const refChatList = useRef<HTMLDivElement | null>(null)
     const refBtnChat = useRef<HTMLDivElement | null>(null)
@@ -116,7 +118,7 @@ function NavBarHome() {
                                 ])}`}>12</span>
                                 <NotifiSvg className="fill-primary" />
                                 {toggleNoti &&
-                                    <NotiList refNoti={refNotiList} className='absolute top-14 -left-56 md:left-auto w-fit min-h-96 px-18 md:px-12 ms-12 sm:ms-0 md:w-auto bg-base-200 right-0 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
+                                    <NotiList refNoti={refNotiList} className='absolute top-14 -left-56 md:left-auto w-fit min-h-96 px-18 ms-12 sm:ms-0 md:w-auto bg-base-200 right-0 shadow-md border-primary border border-dashed min-w-[calc(100vw/4)]' />
                                 }
                             </div>
                         </IconButton>

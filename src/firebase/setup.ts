@@ -26,7 +26,7 @@ const google = () => {
   google.setCustomParameters({
     'login_hint': 'user@example.com'
   });
-  auth.languageCode = 'it';
+  auth.languageCode = 'vi';
   return google
 }
 

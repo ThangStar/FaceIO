@@ -22,13 +22,16 @@ function Avatar({ sizeAvatar = 10, user: usr, subtitle, nameClass, subtitleStyle
     const [user, setUser] = useState<user>()
     useEffect(() => {
         if (!usr) {
+            console.log(1, auth.currentUser);
             setUser(userAuthToUserDb(auth.currentUser))
         } else {
+            console.log(2);
             setUser(usr)
         }
         return () => {
         }
     }, [auth.currentUser, usr])
+    
     return (
         <div className='justify-center items-center flex gap-3 relative'>
             <motion.div
