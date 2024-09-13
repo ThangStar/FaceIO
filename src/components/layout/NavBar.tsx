@@ -49,9 +49,11 @@ function NavBarHome() {
         setToggleNoti(prev => !prev)
     }
     const messages: message[] = useSelector((state: any) => state.dataProvider.value.messages)
-    const lengthMessage = useRef(messages.filter(m => m.seenUserId != auth.currentUser?.uid).length || 0)
-    console.log(lengthMessage);
-    
+    const [lengthMessage, setLengthMessage] = useState(0)
+    useEffect(() => {
+        setLengthMessage(messages.filter(m => m.seenUserId?.indexOf(auth.currentUser?.uid || '') == -1).length || 0)
+    }, [messages])
+
 
     const refChatList = useRef<HTMLDivElement | null>(null)
     const refBtnChat = useRef<HTMLDivElement | null>(null)
@@ -98,8 +100,8 @@ function NavBarHome() {
                             <IconButton onClick={handleVisibleChatList} className=' md:flex ' refButton={refBtnChat}>
                                 <div className='inline-block indicator'>
                                     <span className={`indicator-item badge bg-error text-base-content p-1 badge-secondary ${clsx([
-                                        lengthMessage.current != 0 ? '!visible' : 'hidden',
-                                    ])}`}>{lengthMessage.current}</span>
+                                        lengthMessage != 0 ? '!visible' : 'hidden',
+                                    ])}`}>{lengthMessage}</span>
                                     <ChatSvg className="fill-primary" />
                                 </div>
                             </IconButton>
@@ -114,7 +116,7 @@ function NavBarHome() {
                         <IconButton refButton={refNotiIcon} onClick={onVisibleToggleNoti} className=' md:flex' >
                             <div className='inline-block indicator '>
                                 <span className={`indicator-item badge bg-error p-1 text-base-content badge-secondary ${clsx([
-                                    lengthMessage.current ? '!visible' : 'hidden',
+                                    lengthMessage ? '!visible' : 'hidden',
                                 ])}`}>12</span>
                                 <NotifiSvg className="fill-primary" />
                                 {toggleNoti &&

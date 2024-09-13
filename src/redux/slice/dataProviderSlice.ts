@@ -1,7 +1,22 @@
 import { messageApi, sendMessageDto } from '@/firebase/api/message.api'
 import { message } from '@/types/message'
 import { user } from '@/types/user'
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
+
+const action = {
+    seen: createAsyncThunk(
+        'message/seen',
+        async (mid: string, thunkAPI) => {
+            try {
+                const data = await messageApi.seen(mid)
+                return thunkAPI.fulfillWithValue(true)
+            } catch (error: any) {
+                return thunkAPI.rejectWithValue(error.message)
+            }
+        }
+    ),
+}
 
 export type DataProvider = {
     users: string[],
@@ -31,28 +46,28 @@ export const dataProviderSlice = createSlice({
             }
         }) => {
             console.log(action.payload.message.imagesFile);
-            
+
             if (action.payload.message.imagesFile && action.payload.message.imagesFile.length > 0) {
-                
+
                 messageApi.addImage(action.payload.message.imagesFile || []).then((images: string[]) => {
-                    messageApi.send({...action.payload.message, images: images})
+                    messageApi.send({ ...action.payload.message, images: images })
                 })
-            }else{
+            } else {
                 console.log(action.payload.message);
-                
+
                 messageApi.send(action.payload.message)
             }
         },
-        // connectToServer: (state) => {
-        //     socket.emit("SEND_MESSAGE", "hello server")
-        // },
-        setMessages: (state, action: {payload: {messages: message[]}}) => {
+        setMessages: (state, action: { payload: { messages: message[] } }) => {
             state.value.messages = [...action.payload.messages]
-        }
+        },
     }
 })
 
 export const dataProviderActions = dataProviderSlice.actions
+export const messageActions = {
+    ...action
+}
 export default dataProviderSlice.reducer
 
 

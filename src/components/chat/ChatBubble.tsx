@@ -95,6 +95,8 @@ function ChatBubbleItem({ index, userId }: Props) {
     const [messages, setMessages] = useState<message[]>([])
 
     useEffect(() => {
+        console.log(userId);
+        
         const fetchUser = async () => {
             const q = query(collection(db, "users"), where("uid", "==", userId));
             const snapshot = await getDocs(q);

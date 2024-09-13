@@ -2,7 +2,7 @@ import React, { HTMLAttributes, useEffect, useId, useState } from 'react'
 import { motion } from "framer-motion"
 import Avatar from '../avatar/Avatar'
 import { useDispatch, useSelector } from 'react-redux'
-import { DataProvider, dataProviderActions } from '@/redux/slice/dataProviderSlice'
+import { DataProvider, dataProviderActions, messageActions } from '@/redux/slice/dataProviderSlice'
 import { and, collection, getDocs, limit, onSnapshot, or, orderBy, query, where } from 'firebase/firestore'
 import { auth, db } from '@/firebase/setup'
 import { message } from '@/types/message'
@@ -18,12 +18,13 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 
 function ChatList({ className, setVisibleChatList, refChat }: Props) {
     const { addNewChat, removeChat } = dataProviderActions
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<any>()
     const messages: message[] = useSelector((state: any) => state.dataProvider.value.messages)
 
-    const handleNewChat = (idUser: string) => {
+    const handleNewChat = (idUser: string, idMessageNew: string) => {
         setVisibleChatList(false)
         dispatch(addNewChat({ idUser }))
+        idMessageNew && dispatch(messageActions.seen(idMessageNew))
     }
 
     const [tabChatSelected, setTabChatSelected] = useState(1)
@@ -49,11 +50,11 @@ function ChatList({ className, setVisibleChatList, refChat }: Props) {
                             className="relative flex text-base-content items-center gap-4 p-4 border-b border-base-100 cursor-pointer"
                             key={message.id}
                             whileHover={{ scale: 1.02 }}
-                            onClick={() => handleNewChat(message.user_receive)}
+                            onClick={() => handleNewChat(message.user_receive !== auth.currentUser?.uid ? message.user_receive : message.user_send, message.id || '')}
                         >
-                            <Avatar sizeAvatar={8} user={message.user} subtitleStyle={clsx({
-                                'opacity-65 font-normal': message.seenUserId?.includes(auth.currentUser?.uid || '')
-                            })} subtitle={message.message} time={moment(message.createdAt).locale('vi').fromNow()} />
+                            <Avatar sizeAvatar={8} user={message.user} subtitleStyle={clsx([
+                                message.seenUserId?.includes(auth.currentUser?.uid || '') ? 'opacity-65 font-normal' : 'font-bold'
+                            ])} subtitle={message.message} time={moment(message.createdAt).locale('vi').fromNow()} />
                         </motion.li>
                     ))}
                 </ul>
